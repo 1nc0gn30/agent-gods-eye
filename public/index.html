@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent God's Eye — Autonomous Shodan OSINT Tactical Radar & Threat Surface Recon</title>
+  <meta name="description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, threat scoring (0-100), and SSE telemetry stream for AI agents.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- OpenGraph Meta Tags -->
+  <meta property="og:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
+  <meta property="og:description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, and threat scoring.">
+  <meta property="og:url" content="https://godseye.nullai.tech/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://godseye.nullai.tech/assets/og-gods-eye.png">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@1nc0gn30">
+  <meta name="twitter:creator" content="@1nc0gn30">
+  <meta name="twitter:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
+  <meta name="twitter:description" content="Global geospatial threat vector radar & autonomous attack surface surveillance for AI agents. 100% Python standard library.">
+  <meta name="twitter:image" content="https://godseye.nullai.tech/assets/og-gods-eye.png">
+
+  <!-- AEO & SEO Schema.org Graph -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Agent God's Eye",
+        "url": "https://godseye.nullai.tech/",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Linux, macOS, Windows",
+        "offers": {
+          "@type": "Offer",
+          "price": "19.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://buy.stripe.com/7sI7sA8hM2X8eFG8ww"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Neal Frazier Tech",
+          "url": "https://nullai.tech"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Agent God's Eye and how does it map global attack surfaces?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Agent God's Eye is an autonomous tactical OSINT radar that integrates directly with Shodan APIs. It catalogs exposed public infrastructure—including RTSP surveillance cameras, industrial SCADA/Modbus control systems, open databases, and remote desktop services—normalizing them into Cartesian 3D coordinates on an interactive planetary globe with automated threat scoring (0-100)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Agent God's Eye require external pip dependencies?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The backend is engineered 100% on the Python 3.10+ standard library (urllib.request, sqlite3, http.server, socketserver) with zero external pip dependencies. It runs completely standalone on port 8112 with zero telemetry leaks."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What payment methods are supported for the Lifetime Founding Member License?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can purchase the $19 Lifetime Founding License via credit cards, Apple Pay, and Google Pay through Stripe, or with decentralized cryptocurrency via the DePay Solana integration."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- HIGH-CONVERTING SALES FUNNEL BANNER -->
+    <aside class="sales-banner" aria-label="Special Launch Offer">
+      <div class="sales-banner-left">
+        <span class="founding-badge">FOUNDING ACCESS</span>
+        <div class="sales-banner-text">
+          <strong>Sovereign OSINT Radar:</strong> <span class="price-strike">$79</span> <span class="price-current">$19 Lifetime</span> • Global threat vectors, CIDR subnet tracer, and real-time webhook monitors.
+        </div>
+      </div>
+      <div class="sales-banner-right">
+        <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Purchase Pro with Stripe">
+          <span>💳 Stripe Checkout ($19)</span>
+        </a>
+        <button type="button" class="btn btn-solana" onclick="openPaywallModal('DePay Solana Checkout')" aria-label="Purchase Pro with Solana">
+          <span>⚡ Solana DePay</span>
+        </button>
+        <button type="button" class="btn-link" onclick="openPaywallModal('Enter License Key')" aria-label="Activate License Key">
+          Have a key? Activate
+        </button>
+      </div>
+    </aside>
+
+    <!-- HEADER & STATUS -->
+    <header class="header">
+      <div class="brand-wrap">
+        <img src="/assets/favicon.svg" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon">
+        <h1 class="brand-title">
+          AGENT GOD'S EYE
+          <span class="brand-version">v1.0.0</span>
+        </h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <div id="shodanStatus" class="status-badge">
+          <span class="status-dot"></span> CONNECTING RADAR...
+        </div>
+        <span id="proStatusBadge" class="brand-version" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
+          COMMUNITY EDITION
+        </span>
+      </div>
+    </header>
+
+    <!-- MAIN COCKPIT -->
+    <main>
+      
+      <!-- BENTO METRICS -->
+      <section class="bento-grid" aria-label="Tactical Telemetry Overview">
+        <div class="card col-3">
+          <div class="card-header">
+            <span class="card-title">
+              <span class="card-title-icon">🛰️</span> Active Plan
+            </span>
+          </div>
+          <div class="metric-box">
+            <div id="metricPlan" class="metric-val val-gold">DEV</div>
+            <div id="metricCredits" class="metric-sub">Syncing credits...</div>
+          </div>
+        </div>
+
+        <div class="card col-3">
+          <div class="card-header">
+            <span class="card-title">
+              <span class="card-title-icon">🌐</span> Surface Targets
+            </span>
+          </div>
+          <div class="metric-box">
+            <div id="metricTotal" class="metric-val val-cyan">0</div>
+            <div class="metric-sub">Cataloged in Local SQLite</div>
+          </div>
+        </div>
+
+        <div class="card col-3">
+          <div class="card-header">
+            <span class="card-title">
+              <span class="card-title-icon">⚠️</span> Critical Nodes
+            </span>
+          </div>
+          <div class="metric-box">
+            <div id="metricThreats" class="metric-val val-ruby">0</div>
+            <div class="metric-sub">Threat Score &ge; 75 (SCADA/Cams)</div>
+          </div>
+        </div>
+
+        <div class="card col-3">
+          <div class="card-header">
+            <span class="card-title">
+              <span class="card-title-icon">📍</span> Geographies
+            </span>
+          </div>
+          <div class="metric-box">
+            <div id="metricCountries" class="metric-val val-emerald">0</div>
+            <div class="metric-sub">Unique Sovereign Jurisdictions</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D KINETIC PLANETARY RADAR -->
+      <section class="card col-12" style="margin-bottom: 2rem;" aria-label="3D Tactical Planetary Radar">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="card-title-icon">🎯</span> Kinetic 3D Planetary Radar Stage
+          </h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">
+            Drag to rotate • Click node to focus
+          </span>
+        </div>
+
+        <div class="radar-stage">
+          <canvas id="globeCanvas"></canvas>
+          
+          <div class="radar-overlay-hud">
+            <span class="hud-tag" id="hudCoord">LAT: 00.00° | LON: 00.00°</span>
+            <span class="hud-tag" id="hudTarget" style="color: var(--gold); border-color: rgba(212,175,55,0.4);">
+              TARGET: SCANNING SURFACE...
+            </span>
+          </div>
+
+          <div class="radar-controls-hud">
+            <button type="button" id="btnView3D" class="radar-btn">⏸ Pause Orbit</button>
+            <button type="button" id="btnResetGlobe" class="radar-btn">🔄 Reset Vector</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TACTICAL SEARCH & FILTER CONTROL -->
+      <section class="card col-12" style="margin-bottom: 2rem;" aria-label="Tactical Vector Filter">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="card-title-icon">🔍</span> Surface Vector Query Engine
+          </h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">
+            Live Shodan API Interrogation
+          </span>
+        </div>
+
+        <div class="search-bar-wrap">
+          <form id="searchForm" class="search-input-group">
+            <input type="text" id="searchInput" class="form-control text-mono" placeholder="port:554 has_screenshot:true country:US" value="port:554 has_screenshot:true" aria-label="Shodan search query input">
+            <button type="submit" class="btn btn-cyan">
+              <span>⚡ Execute Recon Sweep</span>
+            </button>
+          </form>
+
+          <div class="preset-chips">
+            <button type="button" class="chip preset-chip active" data-query="port:554 has_screenshot:true">
+              📹 Surveillance RTSP / Webcams
+            </button>
+            <button type="button" class="chip preset-chip" data-query="port:502 modbus">
+              🏭 Industrial SCADA / Modbus
+            </button>
+            <button type="button" class="chip preset-chip" data-query="port:27017 'MongoDB Server Information'">
+              🗄️ Exposed MongoDB
+            </button>
+            <button type="button" class="chip preset-chip" data-query="port:5900 'authentication disabled'">
+              💻 Open VNC Remote Desktops
+            </button>
+            <button type="button" class="chip preset-chip" data-query="has_vuln:true">
+              ⚠️ Exploit Surface (CVEs)
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECON TARGETS & SSE STREAM SPLIT -->
+      <div class="bento-grid">
+        
+        <!-- TARGETS TABLE -->
+        <section class="card col-8" aria-label="Detected Surface Targets">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">📋</span> Cataloged Host Nodes
+            </h2>
+            <button type="button" class="btn btn-outline" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
+              📥 Export JSON / CSV (Pro)
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Threat</th>
+                  <th>IP Address</th>
+                  <th>Location</th>
+                  <th>Organization / ISP</th>
+                  <th>Ports</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="targetsTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-dim);">
+                    Initializing tactical scan...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- LIVE SSE TELEMETRY STREAM -->
+        <section class="card col-4" aria-label="Live Telemetry Feed">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">📡</span> Live Telemetry Feed
+            </h2>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald);">
+              ● SSE LIVE (:8112)
+            </span>
+          </div>
+
+          <div id="streamConsole" class="stream-box">
+            <div class="stream-entry">
+              <span class="stream-time">[INIT]</span> Connecting to Agent God's Eye radar telemetry stream...
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- FROSTED GLASS BLUR PAYWALL (Pro Subnet Sweeper & Threat Intel) -->
+      <section class="card col-12 paywall-wrapper" aria-labelledby="proTitle" style="margin-top: 1rem;">
+        <div class="card-header">
+          <h2 id="proTitle" class="card-title">
+            <span>🔒 Automated CIDR Subnet Sweeper & Webhook Alerting Engine</span>
+          </h2>
+          <span class="founding-badge">PRO SUITE</span>
+        </div>
+
+        <!-- Blurred Content -->
+        <div class="paywall-blurred">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
+              <div style="font-weight: 700; color: var(--gold);">Continuous Subnet CIDR Watcher</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                Schedule background sweeps across target /24 and /16 CIDR subnets every 15 minutes.
+              </div>
+            </div>
+            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
+              <div style="font-weight: 700; color: var(--cyan);">Discord & Slack Webhook Dispatch</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                Instant push alerts whenever a new camera stream or SCADA port opens on your perimeter.
+              </div>
+            </div>
+            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
+              <div style="font-weight: 700; color: var(--emerald);">Auditor-Grade Compliance Exporter</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                Export raw ASN, CIDR, and CVE telemetry into formatted executive penetration reports.
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="triggerProAction('export_targets')">
+            Download Complete Shodan Attack Surface Bundle
+          </button>
+        </div>
+
+        <!-- Lock Overlay -->
+        <div class="paywall-overlay">
+          <div class="paywall-icon">🔐</div>
+          <h3 class="paywall-title">Unlock Automated Perimeter Surveillance</h3>
+          <p class="paywall-desc">
+            Upgrade to the Pro Founding Member License. Unlock automated CIDR subnet sweepers, webhook alert dispatchers, unmetered target inventory exports, and continuous attack surface monitoring.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary">
+              <span>💳 Unlock Pro via Stripe ($19)</span>
+            </a>
+            <button type="button" class="btn btn-solana" onclick="openPaywallModal('DePay Solana Checkout')">
+              <span>⚡ Unlock via Solana</span>
+            </button>
+            <button type="button" class="btn btn-outline" onclick="openPaywallModal('Enter License Key')">
+              <span>Enter License Key</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- HOST INSPECTION MODAL -->
+    <div id="hostModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="hostModalHeading">
+      <div class="modal-card">
+        <button type="button" class="modal-close" onclick="closeHostModal()" aria-label="Close host inspection">&times;</button>
+        <span id="hostModalHeading" class="founding-badge" style="background: var(--cyan); color: #08080B;">SHODAN HOST INTELLIGENCE</span>
+        <div id="hostModalContent" style="margin-top: 1rem;">
+          <!-- Populated dynamically by inspectHost() -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PRO PAYWALL MODAL -->
+    <div id="paywallModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-card">
+        <button type="button" class="modal-close" onclick="closePaywallModal()" aria-label="Close dialog">&times;</button>
+        
+        <span class="founding-badge">PRO LICENSE</span>
+        <h3 id="modalTitle" style="font-size: 1.4rem; color: #FFF; margin: 0.75rem 0 0.25rem 0;">
+          Unlock Agent God's Eye Pro
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Triggered by: <strong id="modalFeatureName" style="color: var(--gold);">Advanced Tactical Feature</strong>
+        </p>
+
+        <ul class="matrix-list">
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Autonomous continuous CIDR subnet sweepers & background monitors</span></li>
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Instant Discord & Slack webhook alerts for new open ports & CVEs</span></li>
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Unmetered CSV & JSON raw target inventory exports</span></li>
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Interactive 3D kinetic planetary projection with high-resolution targeting</span></li>
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>100% Python standard library — zero external pip dependencies</span></li>
+          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Lifetime access, free updates & sovereign local ownership</span></li>
+        </ul>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
+          <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" style="flex: 1; min-width: 180px;">
+            <span>💳 Stripe Checkout ($19)</span>
+          </a>
+          <a href="https://depay.com/GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" target="_blank" rel="noopener" class="btn btn-solana" style="flex: 1; min-width: 180px;">
+            <span>⚡ Solana Pay ($19)</span>
+          </a>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
+          <label for="licenseKeyInput" class="form-label" style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:0.5rem;">
+            Already purchased? Enter receipt email or license key:
+          </label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="licenseKeyInput" class="form-control text-mono" placeholder="SOVEREIGN-KEY-..." aria-label="License key input">
+            <button type="button" class="btn btn-outline" onclick="verifyLicenseKey()">Activate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBTLE ATTRIBUTION FOOTER -->
+    <footer class="footer">
+      <div>
+        Engineered by <strong>Neal Frazier Tech</strong> (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a>
+      </div>
+      <div style="margin-top: 0.5rem; font-size: 0.78rem;">
+        <a href="https://github.com/1nc0gn30/agent-gods-eye" target="_blank" rel="noopener">GitHub Repository</a> • Port 8112 (Tactical Radar Cockpit & REST API)
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/godseye_radar.js"></script>
+</body>
+</html>
