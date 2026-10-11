@@ -19,6 +19,24 @@ from .server import GodsEyeServer
 from .shodan_client import ShodanClient
 from .storage import GodsEyeStorage
 
+
+def _default_bind_host() -> str:
+    """Bind address: localhost unless explicitly opted in via $ZOTH_BIND_HOST or
+    $HOST (IP literal only; zsh sets HOST to the hostname) or --host."""
+    import ipaddress, os
+    for var in ("ZOTH_BIND_HOST", "HOST"):
+        val = os.environ.get(var, "").strip()
+        if val == "localhost":
+            return "127.0.0.1"
+        if val:
+            try:
+                ipaddress.ip_address(val)
+                return val
+            except ValueError:
+                pass
+    return "127.0.0.1"
+
+
 # ANSI Formatting
 C_GOLD = "\033[38;5;214m"
 C_CYAN = "\033[38;5;51m"
@@ -130,7 +148,7 @@ def main() -> None:
 
     # serve
     p_serve = subparsers.add_parser("serve", help="Launch Web Deck & REST API")
-    p_serve.add_argument("--host", default="0.0.0.0")
+    p_serve.add_argument("--host", default=_default_bind_host(), help="Host interface (default: 127.0.0.1 or $ZOTH_BIND_HOST; use 0.0.0.0 only on trusted networks)")
     p_serve.add_argument("--port", type=int, default=8112)
     p_serve.add_argument("--db", default="godseye.db")
     p_serve.add_argument("--key", default=None, help="Shodan API key override")
