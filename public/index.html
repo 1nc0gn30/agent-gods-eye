@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agent God's Eye — Autonomous Shodan OSINT Tactical Radar & Threat Surface Recon</title>
   <meta name="description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, threat scoring (0-100), and SSE telemetry stream for AI agents.">
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon.png">
+  <link rel="apple-touch-icon" href="/assets/icon.png">
 
   <!-- OpenGraph Meta Tags -->
   <meta property="og:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
   <meta property="og:description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, and threat scoring.">
-  <meta property="og:url" content="https://godseye.nullai.tech/">
+  <meta property="og:url" content="https://agent-gods-eye.nullai.tech/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://godseye.nullai.tech/assets/og-gods-eye.png">
+  <meta property="og:image" content="https://agent-gods-eye.nullai.tech/assets/banner.png">
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -20,7 +22,7 @@
   <meta name="twitter:creator" content="@1nc0gn30">
   <meta name="twitter:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
   <meta name="twitter:description" content="Global geospatial threat vector radar & autonomous attack surface surveillance for AI agents. 100% Python standard library.">
-  <meta name="twitter:image" content="https://godseye.nullai.tech/assets/og-gods-eye.png">
+  <meta name="twitter:image" content="https://agent-gods-eye.nullai.tech/assets/banner.png">
 
   <!-- AEO & SEO Schema.org Graph -->
   <script type="application/ld+json">
@@ -30,7 +32,7 @@
       {
         "@type": "SoftwareApplication",
         "name": "Agent God's Eye",
-        "url": "https://godseye.nullai.tech/",
+        "url": "https://agent-gods-eye.nullai.tech/",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Linux, macOS, Windows",
         "offers": {
@@ -83,6 +85,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script defer src="https://integrate.depay.com/widgets/v13.js"></script>
 </head>
 <body>
 
@@ -97,13 +100,13 @@
         </div>
       </div>
       <div class="sales-banner-right">
-        <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Purchase Pro with Stripe">
+        <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" id="btn-stripe-checkout" aria-label="Purchase Pro with Stripe">
           <span>💳 Stripe Checkout ($19)</span>
         </a>
-        <button type="button" class="btn btn-solana" onclick="openPaywallModal('DePay Solana Checkout')" aria-label="Purchase Pro with Solana">
+        <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-depay-solana" onclick="openDePayCheckout()" aria-label="Purchase Pro with Solana">
           <span>⚡ Solana DePay</span>
         </button>
-        <button type="button" class="btn-link" onclick="openPaywallModal('Enter License Key')" aria-label="Activate License Key">
+        <button type="button" class="btn-link" id="btn-open-license-modal" onclick="openPaywallModal('Enter License Key')" aria-label="Activate License Key">
           Have a key? Activate
         </button>
       </div>
@@ -112,7 +115,7 @@
     <!-- HEADER & STATUS -->
     <header class="header">
       <div class="brand-wrap">
-        <img src="/assets/favicon.svg" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon">
+        <img src="/assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="36" height="36">
         <h1 class="brand-title">
           AGENT GOD'S EYE
           <span class="brand-version">v1.0.0</span>
@@ -122,9 +125,10 @@
         <div id="shodanStatus" class="status-badge">
           <span class="status-dot"></span> CONNECTING RADAR...
         </div>
-        <span id="proStatusBadge" class="brand-version" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
-          COMMUNITY EDITION
+        <span id="pro-badge" class="brand-version" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
+          FREE TIER
         </span>
+        <button type="button" class="btn btn-outline" id="btn-header-key" style="min-height: 30px; padding: 0.2rem 0.65rem; font-size: 0.75rem;" onclick="openPaywallModal('Enter License Key')">🔑 Activate Pro</button>
       </div>
     </header>
 
@@ -258,7 +262,7 @@
             <h2 class="card-title">
               <span class="card-title-icon">📋</span> Cataloged Host Nodes
             </h2>
-            <button type="button" class="btn btn-outline" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
+            <button type="button" class="btn btn-outline" id="btn-export-targets" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
               📥 Export JSON / CSV (Pro)
             </button>
           </div>
@@ -307,7 +311,7 @@
       </div>
 
       <!-- FROSTED GLASS BLUR PAYWALL (Pro Subnet Sweeper & Threat Intel) -->
-      <section class="card col-12 paywall-wrapper" aria-labelledby="proTitle" style="margin-top: 1rem;">
+      <section class="card col-12 paywall-wrapper" id="threat-paywall-section" aria-labelledby="proTitle" style="margin-top: 1rem;">
         <div class="card-header">
           <h2 id="proTitle" class="card-title">
             <span>🔒 Automated CIDR Subnet Sweeper & Webhook Alerting Engine</span>
@@ -316,7 +320,7 @@
         </div>
 
         <!-- Blurred Content -->
-        <div class="paywall-blurred">
+        <div class="paywall-blurred" id="threat-paywall-content">
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
             <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
               <div style="font-weight: 700; color: var(--gold);">Continuous Subnet CIDR Watcher</div>
@@ -337,26 +341,26 @@
               </div>
             </div>
           </div>
-          <button type="button" class="btn btn-primary" onclick="triggerProAction('export_targets')">
+          <button type="button" class="btn btn-primary" id="btn-blurred-download" onclick="triggerProAction('export_targets')">
             Download Complete Shodan Attack Surface Bundle
           </button>
         </div>
 
         <!-- Lock Overlay -->
-        <div class="paywall-overlay">
+        <div class="paywall-overlay" id="threat-paywall-overlay">
           <div class="paywall-icon">🔐</div>
           <h3 class="paywall-title">Unlock Automated Perimeter Surveillance</h3>
           <p class="paywall-desc">
             Upgrade to the Pro Founding Member License. Unlock automated CIDR subnet sweepers, webhook alert dispatchers, unmetered target inventory exports, and continuous attack surface monitoring.
           </p>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
-            <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary">
+            <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" id="btn-overlay-stripe">
               <span>💳 Unlock Pro via Stripe ($19)</span>
             </a>
-            <button type="button" class="btn btn-solana" onclick="openPaywallModal('DePay Solana Checkout')">
+            <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-overlay-solana" onclick="openDePayCheckout()">
               <span>⚡ Unlock via Solana</span>
             </button>
-            <button type="button" class="btn btn-outline" onclick="openPaywallModal('Enter License Key')">
+            <button type="button" class="btn btn-outline" id="btn-overlay-key" onclick="openPaywallModal('Enter License Key')">
               <span>Enter License Key</span>
             </button>
           </div>
@@ -399,12 +403,12 @@
         </ul>
 
         <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
-          <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" style="flex: 1; min-width: 180px;">
+          <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" rel="noopener" class="btn btn-primary" id="modal-stripe-btn" style="flex: 1; min-width: 180px;">
             <span>💳 Stripe Checkout ($19)</span>
           </a>
-          <a href="https://depay.com/GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" target="_blank" rel="noopener" class="btn btn-solana" style="flex: 1; min-width: 180px;">
+          <button type="button" class="btn btn-solana btn-depay-trigger" id="modal-solana-btn" onclick="openDePayCheckout()" style="flex: 1; min-width: 180px;" aria-label="Pay with Solana DePay">
             <span>⚡ Solana Pay ($19)</span>
-          </a>
+          </button>
         </div>
 
         <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
@@ -412,8 +416,8 @@
             Already purchased? Enter receipt email or license key:
           </label>
           <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="licenseKeyInput" class="form-control text-mono" placeholder="SOVEREIGN-KEY-..." aria-label="License key input">
-            <button type="button" class="btn btn-outline" onclick="verifyLicenseKey()">Activate</button>
+            <input type="text" id="licenseKeyInput" class="form-control text-mono" placeholder="GODSEYE-PRO-2026" aria-label="License key input">
+            <button type="button" class="btn btn-outline" id="btn-modal-activate" onclick="verifyLicenseKey()">Activate</button>
           </div>
         </div>
       </div>

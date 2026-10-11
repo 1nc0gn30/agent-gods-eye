@@ -17,4 +17,4 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
-Sitemap: https://godseye.nullai.tech/sitemap.xml
+Sitemap: https://agent-gods-eye.nullai.tech/sitemap.xml
