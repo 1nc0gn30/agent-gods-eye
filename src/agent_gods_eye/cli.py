@@ -151,13 +151,13 @@ def main() -> None:
     p_serve.add_argument("--host", default=_default_bind_host(), help="Host interface (default: 127.0.0.1 or $ZOTH_BIND_HOST; use 0.0.0.0 only on trusted networks)")
     p_serve.add_argument("--port", type=int, default=8112)
     p_serve.add_argument("--db", default="godseye.db")
-    p_serve.add_argument("--key", default=None, help="Shodan API key override")
+    p_serve.add_argument("--key", default=None, help="Shodan API key override (prefer SHODAN_API_KEY; CLI args are visible in ps)")
 
     # search
     p_search = subparsers.add_parser("search", help="Execute an OSINT scan query")
     p_search.add_argument("query", help="Shodan query string (e.g. 'port:554 has_screenshot:true')")
-    p_search.add_argument("--limit", type=int, default=20)
-    p_search.add_argument("--key", default=None)
+    p_search.add_argument("--limit", type=int, default=20, help="Max results to return (default: 20)")
+    p_search.add_argument("--key", default=None, help="Shodan API key override (prefer SHODAN_API_KEY or ~/.config/shodan/.env: CLI args are visible in ps and shell history)")
 
     # status
     p_status = subparsers.add_parser("status", help="Inspect status of running radar daemon")
