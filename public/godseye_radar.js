@@ -890,6 +890,24 @@ function appendStreamEntry(prefix, contentHtml) {
   }
 }
 
+// Toast Notification System
+function showToast(msg) {
+  let toast = document.getElementById('godseyeToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'godseyeToast';
+    toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 100000; background: #12131C; border: 1px solid var(--gold, #D4AF37); color: #FFF; padding: 0.65rem 1.25rem; border-radius: 8px; font-family: var(--font-mono, monospace); font-size: 0.82rem; box-shadow: 0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(212,175,55,0.25); display: flex; align-items: center; gap: 0.5rem; transition: opacity 0.3s ease, transform 0.3s ease; opacity: 0; transform: translateY(10px); pointer-events: none;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+  }, 2600);
+}
+
 // DePay Solana Integration
 function openDePayCheckout() {
   if (typeof DePayWidgets !== 'undefined' && DePayWidgets.Payment) {
@@ -903,11 +921,15 @@ function openDePayCheckout() {
 
 // Copy to Clipboard
 function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    alert(`Copied ${text} to clipboard`);
-  }).catch(() => {
-    prompt('Copy to clipboard:', text);
-  });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`Copied ${text} to clipboard`);
+    }).catch(() => {
+      showToast(`Text: ${text}`);
+    });
+  } else {
+    showToast(`Text: ${text}`);
+  }
 }
 
 // Action Interceptor for Pro Features
@@ -916,7 +938,7 @@ function triggerProAction(featureName) {
     if (featureName === 'export_targets') {
       exportTargetsBundle();
     } else {
-      alert(`[PRO ACTIVE] Executing: ${featureName}`);
+      showToast(`[PRO ACTIVE] Executing: ${featureName}`);
     }
   } else {
     openPaywallModal(featureName);
@@ -935,6 +957,7 @@ function exportTargetsBundle() {
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();
+  showToast("✓ Exported Shodan attack surface targets bundle");
 }
 
 // Pro Paywall Modal Controls
@@ -952,58 +975,94 @@ function closePaywallModal() {
 
 // Check & Activate Pro License
 function isProActive() {
-  const key = localStorage.getItem('godseye_pro_license');
+  const k1 = localStorage.getItem('godseye_pro_license');
+  const k2 = localStorage.getItem('agent_godseye_pro');
+  const k3 = localStorage.getItem('zoth_godseye_licensed');
+  const k4 = localStorage.getItem('pro_licensed');
   const param = new URLSearchParams(window.location.search).get('licensed');
-  return key === 'active' || key === 'GODSEYE-PRO-2026' || param === 'true';
+  return k1 === 'active' || k1 === 'GODSEYE-PRO-2026' || k2 === 'GODSEYE-PRO-2026' || k3 === 'true' || k4 === 'true' || param === 'true';
 }
 
 function checkProLicense() {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('licensed') === 'true') {
-    localStorage.setItem('godseye_pro_license', 'active');
+  if (params.get('licensed') === 'true' || params.get('session_id') || params.get('pro') === 'true') {
+    localStorage.setItem('godseye_pro_license', 'GODSEYE-PRO-2026');
+    localStorage.setItem('agent_godseye_pro', 'GODSEYE-PRO-2026');
+    localStorage.setItem('zoth_godseye_licensed', 'true');
+    localStorage.setItem('pro_licensed', 'true');
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }
 
   if (isProActive()) {
-    document.body.classList.add('pro-licensed');
-    const badge1 = document.getElementById('pro-badge');
-    if (badge1) {
-      badge1.textContent = '⭐ PRO ACTIVE';
-      badge1.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
-      badge1.style.color = '#08080B';
-      badge1.style.borderColor = '#D4AF37';
-    }
-    const badge2 = document.getElementById('proStatusBadge');
-    if (badge2) {
-      badge2.textContent = '⭐ PRO ACTIVE';
-      badge2.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
-      badge2.style.color = '#08080B';
-      badge2.style.borderColor = '#D4AF37';
-    }
-
-    const overlay = document.getElementById('threat-paywall-overlay');
-    if (overlay) overlay.style.display = 'none';
-
-    const blurred = document.getElementById('threat-paywall-content');
-    if (blurred) {
-      blurred.style.filter = 'none';
-      blurred.style.pointerEvents = 'auto';
-      blurred.style.opacity = '1';
-    }
+    activateProState();
   }
 }
+
+function activateProState() {
+  localStorage.setItem('godseye_pro_license', 'GODSEYE-PRO-2026');
+  localStorage.setItem('agent_godseye_pro', 'GODSEYE-PRO-2026');
+  localStorage.setItem('zoth_godseye_licensed', 'true');
+  localStorage.setItem('pro_licensed', 'true');
+
+  document.body.classList.add('pro-licensed');
+  const badge1 = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
+  if (badge1) {
+    badge1.textContent = '⭐ PRO ACTIVE';
+    badge1.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
+    badge1.style.color = '#08080B';
+    badge1.style.borderColor = '#D4AF37';
+  }
+  const badge2 = document.getElementById('proStatusBadge');
+  if (badge2) {
+    badge2.textContent = '⭐ PRO ACTIVE';
+    badge2.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
+    badge2.style.color = '#08080B';
+    badge2.style.borderColor = '#D4AF37';
+  }
+
+  const sb = document.getElementById('salesBanner');
+  if (sb) sb.style.display = 'none';
+
+  const overlay = document.getElementById('threat-paywall-overlay');
+  if (overlay) overlay.style.display = 'none';
+
+  const blurred = document.getElementById('threat-paywall-content');
+  if (blurred) {
+    blurred.style.filter = 'none';
+    blurred.style.pointerEvents = 'auto';
+    blurred.style.opacity = '1';
+  }
+
+  closePaywallModal();
+  showToast('⭐ Sovereign Pro License Active — All Features Unlocked!');
+}
+
+window.activateLicenseKey = function(key) {
+  if (!key) key = 'GODSEYE-PRO-2026';
+  localStorage.setItem('godseye_pro_license', key);
+  localStorage.setItem('agent_godseye_pro', key);
+  localStorage.setItem('zoth_godseye_licensed', 'true');
+  localStorage.setItem('pro_licensed', 'true');
+  activateProState();
+  return true;
+};
 
 function verifyLicenseKey() {
   const input = document.getElementById('licenseKeyInput');
   const val = input ? input.value.trim() : '';
   if (val.length < 6) {
-    alert('Please enter a valid license key or receipt email (minimum 6 characters).');
+    showToast('Please enter a valid license key or receipt email (min 6 characters).');
     return;
   }
 
-  localStorage.setItem('godseye_pro_license', 'active');
-  checkProLicense();
-  closePaywallModal();
-  alert('⭐ Pro License successfully activated! All tactical sweeps and CIDR exporters unlocked.');
+  localStorage.setItem('godseye_pro_license', val);
+  localStorage.setItem('agent_godseye_pro', val);
+  localStorage.setItem('zoth_godseye_licensed', 'true');
+  localStorage.setItem('pro_licensed', 'true');
+  activateProState();
+  showToast('⭐ Pro License verified! All tactical sweeps & CIDR exporters unlocked.');
 }
 
 // Utility

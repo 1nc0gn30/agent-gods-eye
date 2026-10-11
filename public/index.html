@@ -92,7 +92,7 @@
   <div class="container">
     
     <!-- HIGH-CONVERTING SALES FUNNEL BANNER -->
-    <aside class="sales-banner" aria-label="Special Launch Offer">
+    <aside id="salesBanner" class="sales-banner" aria-label="Special Launch Offer">
       <div class="sales-banner-left">
         <span class="founding-badge">FOUNDING ACCESS</span>
         <div class="sales-banner-text">
@@ -118,15 +118,15 @@
         <img src="/assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="36" height="36">
         <h1 class="brand-title">
           AGENT GOD'S EYE
-          <span class="brand-version">v1.0.0</span>
+          <span class="brand-version">v2.5 SOVEREIGN</span>
         </h1>
       </div>
       <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
         <div id="shodanStatus" class="status-badge">
           <span class="status-dot"></span> CONNECTING RADAR...
         </div>
-        <span id="pro-badge" class="brand-version" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
-          FREE TIER
+        <span id="licenseBadge" class="brand-version" data-alias="pro-badge" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
+          ⚡ FREE TIER
         </span>
         <button type="button" class="btn btn-outline" id="btn-header-key" style="min-height: 30px; padding: 0.2rem 0.65rem; font-size: 0.75rem;" onclick="openPaywallModal('Enter License Key')">🔑 Activate Pro</button>
       </div>
@@ -381,7 +381,7 @@
     </div>
 
     <!-- PRO PAYWALL MODAL -->
-    <div id="paywallModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div id="paywallModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle" data-alias="licenseModal">
       <div class="modal-card">
         <button type="button" class="modal-close" onclick="closePaywallModal()" aria-label="Close dialog">&times;</button>
         
@@ -417,7 +417,7 @@
           </label>
           <div style="display: flex; gap: 0.5rem;">
             <input type="text" id="licenseKeyInput" class="form-control text-mono" placeholder="GODSEYE-PRO-2026" aria-label="License key input">
-            <button type="button" class="btn btn-outline" id="btn-modal-activate" onclick="verifyLicenseKey()">Activate</button>
+            <button type="button" class="btn btn-outline" id="btn-modal-activate" data-alias="btnActivateKey" onclick="verifyLicenseKey()">Activate</button>
           </div>
         </div>
       </div>
