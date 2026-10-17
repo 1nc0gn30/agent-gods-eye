@@ -1,5 +1,9 @@
 # Agent God's Eye
 
+> ⚡ **Live Web Application**: [https://agent-gods-eye.netlify.app](https://agent-gods-eye.netlify.app)  
+> 💳 **Unlock Pro Lifetime License ($19 One-Time, $0/mo)**: **[Instant Pro Unlock via Stripe](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L)** *(Use promo code `FOUNDER25` for 25% off)*  
+> 🏆 **All-Access Sovereign Pro Bundle (All 44 Tools — $49 Lifetime)**: **[Get All 44 Studios via Stripe](https://buy.stripe.com/eVq14m5k16hW4Le0xWfw40M)**
+
 Shodan OSINT radar: run Shodan queries, normalise the results into targets, and plot them on a 3D globe in a local web deck. Standard library only.
 
 ## Usage
