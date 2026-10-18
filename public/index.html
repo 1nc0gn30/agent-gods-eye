@@ -101,7 +101,7 @@
       </div>
       <div class="sales-banner-right">
         <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn btn-primary" id="btn-stripe-checkout" aria-label="Purchase Pro with Stripe">
-          <span>💳 Stripe Checkout ($19)</span>
+          <span>★ Stripe Checkout ($19)</span>
         </a>
         <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-depay-solana" onclick="openDePayCheckout()" aria-label="Purchase Pro with Solana">
           <span>⚡ Solana DePay</span>
@@ -115,7 +115,7 @@
     <!-- HEADER & STATUS -->
     <header class="header">
       <div class="brand-wrap">
-        <img src="/assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="36" height="36">
+        <img src="assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="36" height="36">
         <h1 class="brand-title">
           AGENT GOD'S EYE
           <span class="brand-version">v2.5 SOVEREIGN</span>
@@ -128,7 +128,7 @@
         <span id="licenseBadge" class="brand-version" data-alias="pro-badge" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
           ⚡ FREE TIER
         </span>
-        <button type="button" class="btn btn-outline" id="btn-header-key" style="min-height: 30px; padding: 0.2rem 0.65rem; font-size: 0.75rem;" onclick="openPaywallModal('Enter License Key')">🔑 Activate Pro</button>
+        <button type="button" class="btn btn-outline" id="btn-header-key" style="min-height: 30px; padding: 0.2rem 0.65rem; font-size: 0.75rem;" onclick="openPaywallModal('Enter License Key')">✦ Activate Pro</button>
       </div>
     </header>
 
@@ -140,7 +140,7 @@
         <div class="card col-3">
           <div class="card-header">
             <span class="card-title">
-              <span class="card-title-icon">🛰️</span> Active Plan
+              <span class="card-title-icon">✦</span> Active Plan
             </span>
           </div>
           <div class="metric-box">
@@ -152,7 +152,7 @@
         <div class="card col-3">
           <div class="card-header">
             <span class="card-title">
-              <span class="card-title-icon">🌐</span> Surface Targets
+              <span class="card-title-icon">◎</span> Surface Targets
             </span>
           </div>
           <div class="metric-box">
@@ -176,7 +176,7 @@
         <div class="card col-3">
           <div class="card-header">
             <span class="card-title">
-              <span class="card-title-icon">📍</span> Geographies
+              <span class="card-title-icon">✦</span> Geographies
             </span>
           </div>
           <div class="metric-box">
@@ -190,7 +190,7 @@
       <section class="card col-12" style="margin-bottom: 2rem;" aria-label="3D Tactical Planetary Radar">
         <div class="card-header">
           <h2 class="card-title">
-            <span class="card-title-icon">🎯</span> Kinetic 3D Planetary Radar Stage
+            <span class="card-title-icon">◎</span> Kinetic 3D Planetary Radar Stage
           </h2>
           <span style="font-size: 0.8rem; color: var(--text-muted);">
             Drag to rotate • Click node to focus
@@ -209,7 +209,7 @@
 
           <div class="radar-controls-hud">
             <button type="button" id="btnView3D" class="radar-btn">⏸ Pause Orbit</button>
-            <button type="button" id="btnResetGlobe" class="radar-btn">🔄 Reset Vector</button>
+            <button type="button" id="btnResetGlobe" class="radar-btn">↻ Reset Vector</button>
           </div>
         </div>
       </section>
@@ -218,7 +218,7 @@
       <section class="card col-12" style="margin-bottom: 2rem;" aria-label="Tactical Vector Filter">
         <div class="card-header">
           <h2 class="card-title">
-            <span class="card-title-icon">🔍</span> Surface Vector Query Engine
+            <span class="card-title-icon">⌕</span> Surface Vector Query Engine
           </h2>
           <span style="font-size: 0.8rem; color: var(--text-muted);">
             Live Shodan API Interrogation
@@ -235,16 +235,16 @@
 
           <div class="preset-chips">
             <button type="button" class="chip preset-chip active" data-query="port:554 has_screenshot:true">
-              📹 Surveillance RTSP / Webcams
+              ✦ Surveillance RTSP / Webcams
             </button>
             <button type="button" class="chip preset-chip" data-query="port:502 modbus">
-              🏭 Industrial SCADA / Modbus
+              ✦ Industrial SCADA / Modbus
             </button>
             <button type="button" class="chip preset-chip" data-query="port:27017 'MongoDB Server Information'">
-              🗄️ Exposed MongoDB
+              ✦ Exposed MongoDB
             </button>
             <button type="button" class="chip preset-chip" data-query="port:5900 'authentication disabled'">
-              💻 Open VNC Remote Desktops
+              ▣ Open VNC Remote Desktops
             </button>
             <button type="button" class="chip preset-chip" data-query="has_vuln:true">
               ⚠️ Exploit Surface (CVEs)
@@ -260,10 +260,10 @@
         <section class="card col-8" aria-label="Detected Surface Targets">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">📋</span> Cataloged Host Nodes
+              <span class="card-title-icon">✦</span> Cataloged Host Nodes
             </h2>
             <button type="button" class="btn btn-outline" id="btn-export-targets" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
-              📥 Export JSON / CSV (Pro)
+              ↓ Export JSON / CSV (Pro)
             </button>
           </div>
 
@@ -294,7 +294,7 @@
         <section class="card col-4" aria-label="Live Telemetry Feed">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">📡</span> Live Telemetry Feed
+              <span class="card-title-icon">✦</span> Live Telemetry Feed
             </h2>
             <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald);">
               ● SSE LIVE (:8112)
@@ -314,7 +314,7 @@
       <section class="card col-12 paywall-wrapper" id="threat-paywall-section" aria-labelledby="proTitle" style="margin-top: 1rem;">
         <div class="card-header">
           <h2 id="proTitle" class="card-title">
-            <span>🔒 Automated CIDR Subnet Sweeper & Webhook Alerting Engine</span>
+            <span>★ Automated CIDR Subnet Sweeper & Webhook Alerting Engine</span>
           </h2>
           <span class="founding-badge">PRO SUITE</span>
         </div>
@@ -348,14 +348,14 @@
 
         <!-- Lock Overlay -->
         <div class="paywall-overlay" id="threat-paywall-overlay">
-          <div class="paywall-icon">🔐</div>
+          <div class="paywall-icon">★</div>
           <h3 class="paywall-title">Unlock Automated Perimeter Surveillance</h3>
           <p class="paywall-desc">
             Upgrade to the Pro Founding Member License. Unlock automated CIDR subnet sweepers, webhook alert dispatchers, unmetered target inventory exports, and continuous attack surface monitoring.
           </p>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
             <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn btn-primary" id="btn-overlay-stripe">
-              <span>💳 Unlock Pro via Stripe ($19)</span>
+              <span>★ Unlock Pro via Stripe ($19)</span>
             </a>
             <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-overlay-solana" onclick="openDePayCheckout()">
               <span>⚡ Unlock via Solana</span>
@@ -404,7 +404,7 @@
 
         <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
           <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn btn-primary" id="modal-stripe-btn" style="flex: 1; min-width: 180px;">
-            <span>💳 Stripe Checkout ($19)</span>
+            <span>★ Stripe Checkout ($19)</span>
           </a>
           <button type="button" class="btn btn-solana btn-depay-trigger" id="modal-solana-btn" onclick="openDePayCheckout()" style="flex: 1; min-width: 180px;" aria-label="Pay with Solana DePay">
             <span>⚡ Solana Pay ($19)</span>
