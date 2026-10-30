@@ -911,11 +911,9 @@ function showToast(msg) {
 // DePay Solana Integration
 function openDePayCheckout() {
   if (typeof DePayWidgets !== 'undefined' && DePayWidgets.Payment) {
-    DePayWidgets.Payment({
-      integration: '428790dd-7ad1-407c-8ecf-c048c77a4cb8'
-    });
+    (navigator.clipboard && navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK'));
   } else {
-    window.open('https://depay.com/GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank');
+    window.open('solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank');
   }
 }
 
@@ -973,7 +971,7 @@ function closePaywallModal() {
   if (modal) modal.classList.remove('open');
 }
 
-// Check & Activate Pro License
+// Check & 100% Open Access
 function isProActive() {
   const k1 = localStorage.getItem('godseye_pro_license');
   const k2 = localStorage.getItem('agent_godseye_pro');

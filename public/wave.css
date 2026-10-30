@@ -1,0 +1,170 @@
+/* ==========================================================================
+   AGENT GOD'S EYE — WAVE PRECISION OBSERVABILITY SURFACE
+   Anchor Concept: Tactical OSINT Observability Cockpit
+   - Clear typography hierarchy (eyebrows, metrics, tabular data)
+   - Visible high-contrast focus rings for keyboard navigation
+   - Short transform/opacity entrance motion on target results
+   - Respects prefers-reduced-motion
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TYPE HIERARCHY REFINEMENT
+   -------------------------------------------------------------------------- */
+
+/* Section & Card Eyebrows */
+.card-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #E2E8F0;
+}
+
+.card-title-icon {
+  font-size: 0.82rem;
+  opacity: 0.95;
+}
+
+/* Bento Telemetry Metrics */
+.metric-val {
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.45rem;
+}
+
+.metric-sub {
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #94A3B8;
+  font-weight: 600;
+}
+
+/* Tactical Data Table Hierarchy */
+.data-table th {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94A3B8;
+  padding: 0.85rem 1rem;
+  background: rgba(21, 24, 36, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-table td {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #E2E8F0;
+}
+
+/* Stream Telemetry Console Readability */
+.stream-box {
+  line-height: 1.5;
+}
+
+.stream-entry {
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+}
+
+.stream-time {
+  color: #64748B;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* HUD Readouts & Badges */
+.hud-tag {
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.founding-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.form-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #94A3B8;
+}
+
+/* --------------------------------------------------------------------------
+   2. VISIBLE FOCUS STATES (ACCESSIBILITY & KEYBOARD NAVIGATION)
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--cyan) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.3) !important;
+}
+
+.btn:focus-visible,
+.radar-btn:focus-visible,
+.chip:focus-visible,
+.modal-close:focus-visible {
+  outline: 2px solid var(--cyan) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.35) !important;
+}
+
+.btn-primary:focus-visible,
+#btn-stripe-checkout:focus-visible,
+#modal-stripe-btn:focus-visible {
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) !important;
+}
+
+.form-control:focus-visible,
+.form-control:focus {
+  border-color: var(--cyan) !important;
+  outline: 2px solid var(--cyan) !important;
+  outline-offset: 1px !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. RESULT ENTRANCE MOTION (SHORT TRANSFORM/OPACITY)
+   -------------------------------------------------------------------------- */
+
+@keyframes resultEntryFade {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#targetsTableBody tr {
+  animation: resultEntryFade 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stream-entry {
+  animation: resultEntryFade 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --------------------------------------------------------------------------
+   4. REDUCED MOTION PREFERENCE
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #targetsTableBody tr,
+  .stream-entry,
+  .btn,
+  .chip,
+  .radar-btn,
+  .status-dot,
+  .form-control {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

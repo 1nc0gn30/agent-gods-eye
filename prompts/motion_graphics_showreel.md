@@ -33,7 +33,7 @@
 - **SFX / Procedural Audio**: Deep metallic servo lock sound followed by rapid terminal keystroke ticks.
 
 ### [00:11 - 00:15] Scene 4: The Sovereign Treasury Call-to-Action (Frames 330 - 450)
-- **Visual**: Camera pulls back into high orbit. The *Orbital Lens of Providence* forms a golden seal around the central title card. Dual payment badges flare with pure CSS conic border beams: Stripe ($19 Lifetime Founding Access) + Solana DePay.
+- **Visual**: Camera pulls back into high orbit. The *Orbital Lens of Providence* forms a golden seal around the central title card. Dual payment badges flare with pure CSS conic border beams: Stripe ($19 Lifetime Founding Access) + Solana Tip.
 - **Copy**:
   - Main Title: `AGENT GOD'S EYE`
   - Tagline: `Autonomous Shodan OSINT Tactical Radar`

@@ -125,8 +125,15 @@ def cmd_status(args: argparse.Namespace) -> None:
         with urllib.request.urlopen(url, timeout=5.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
     except Exception as e:
-        print(f"{C_RED}Error connecting to agent-gods-eye at {url}: {e}{C_RESET}")
+        if getattr(args, "json", False):
+            print(json.dumps({"ok": False, "url": url, "error": str(e)}))
+        else:
+            print(f"{C_RED}Error connecting to agent-gods-eye at {url}: {e}{C_RESET}")
         sys.exit(1)
+
+    if getattr(args, "json", False):
+        print(json.dumps({"ok": True, "url": url, "stats": data}, indent=2))
+        return
 
     print_banner()
     print(f"  Tracked Targets:   {C_GOLD}{data.get('total_targets', 0)}{C_RESET}")
@@ -163,6 +170,7 @@ def main() -> None:
     p_status = subparsers.add_parser("status", help="Inspect status of running radar daemon")
     p_status.add_argument("--host", default="127.0.0.1")
     p_status.add_argument("--port", type=int, default=8112)
+    p_status.add_argument("--json", action="store_true", help="Emit raw stats as JSON (machine-readable)")
 
     args = parser.parse_args()
 
