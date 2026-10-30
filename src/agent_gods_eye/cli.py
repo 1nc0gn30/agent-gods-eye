@@ -151,7 +151,13 @@ def main() -> None:
         prog="agent-gods-eye",
         description="Autonomous Shodan OSINT tactical radar and 3D planetary intelligence cockpit."
     )
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    parser.add_argument("-v", "--version", action="version", version="agent-gods-eye 2.5.0")
+    parser.add_argument("--status", action="store_true", help="Inspect status of running radar daemon")
+    parser.add_argument("--json", action="store_true", help="Emit raw stats as JSON")
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8112)
+
+    subparsers = parser.add_subparsers(dest="command", required=False)
 
     # serve
     p_serve = subparsers.add_parser("serve", help="Launch Web Deck & REST API")
@@ -174,12 +180,18 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    if getattr(args, "status", False) or (getattr(args, "json", False) and not args.command):
+        cmd_status(args)
+        return
+
     if args.command == "serve":
         cmd_serve(args)
     elif args.command == "search":
         cmd_search(args)
     elif args.command == "status":
         cmd_status(args)
+    else:
+        parser.print_help()
 
 
 if __name__ == "__main__":

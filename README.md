@@ -25,30 +25,54 @@
 | **Tool ID** | `agent-gods-eye` |
 | **Category** | `Security & Recon` |
 | **Loopback Port** | `http://127.0.0.1:8112` |
-| **Execution Mode** | `browser` |
+| **Execution Mode** | `python3 server.py --port 8112` |
 | **Zoth Studio Route** | [`https://zoth.nullai.tech/tools/agent-gods-eye`](https://zoth.nullai.tech/tools/agent-gods-eye) |
 
 ---
 
-## 💎 Key Capabilities
+## 📖 What It Does
 
-- **100% Zero-Egress Client & Local Enclave Execution**
-- **Real-Time Interactive Telemetry & AST Verification**
-- **Native Zoth Studio v2 & ZothOS v3.3 Integration**
-- **Zero-Egress Sovereign Guarantee**: Executes locally in-browser or on your loopback enclave (`127.0.0.1:8112`) with zero cloud telemetry.
-- **Triple-Viewport Responsive UI**: Verified across Mobile (`375px`), Tablet (`768px`), and Desktop (`1280px+`) viewports.
+- **Real-Time Shodan & OSINT Surface Radar**: Scans target IP addresses, domains, and ASN blocks using Shodan API telemetry to detect exposed ports, unauthenticated industrial protocols, vulnerable services, and DNS records.
+- **Autonomous Threat Scoring & Analysis**: Calculates CVSS scores and risk weights for target perimeters, classifying vulnerabilities into Critical, High, Medium, and Low vectors.
+- **Interactive Planetary Visualizer**: Visualizes target coordinates, hops, open ports, and certificates on an interactive tactical canvas.
+- **100% Free & Open-Access**: Zero paywalls, zero license locks, zero telemetry leaks.
 
 ---
 
-## 🚀 Quick Start
+## ⚙️ How It Works
+
+1. **Standalone Enclave (`127.0.0.1:8112`)**: Serves an interactive responsive dashboard backed by `server.py` with real `/health`, `/api/stats`, and `/api/scan` endpoints.
+2. **God-Mode Studio Component**: Integrated directly into Zoth Studio v2 (`/tools/agent-gods-eye`) with multi-pane telemetry, scan controls, and export options.
+3. **ZothOS CLI (`agent-gods-eye`)**: A robust terminal tool supporting automated security pipeline audits and JSON telemetry streaming.
+
+---
+
+## 💻 ZothOS CLI & MCP Commands
 
 ```bash
-# Launch via CLI or Zoth Fleet Supervisor
-cd ~/NullAITech/agent-gods-eye && npm start
+# Check status and health
+agent-gods-eye --status
+agent-gods-eye status
 
-# Or supervise the entire 73-port fleet from Zoth Studio v2:
-python3 ~/NullAITech/zoth-studio-v2/bin/ensure_fleet.py
+# Output telemetry in JSON format
+agent-gods-eye --json
+
+# Run an OSINT scan against a host or domain
+agent-gods-eye scan 1.1.1.1
+agent-gods-eye scan example.com --json
+
+# Launch the standalone workstation server
+python3 server.py --port 8112
 ```
+
+---
+
+## ☕ Support Neal Frazier Tech & NullAI
+
+Agent God's Eye is 100% free, open-source, and sovereign software with zero paywalls. If this tool brings you value, consider supporting our ongoing development:
+
+- **☕ Buy Us a Coffee (Stripe)**: [buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)
+- **◎ Solana Tip Address**: `GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`
 
 ---
 
