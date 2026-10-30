@@ -33,11 +33,11 @@
 - **SFX / Procedural Audio**: Deep metallic servo lock sound followed by rapid terminal keystroke ticks.
 
 ### [00:11 - 00:15] Scene 4: The Sovereign Treasury Call-to-Action (Frames 330 - 450)
-- **Visual**: Camera pulls back into high orbit. The *Orbital Lens of Providence* forms a golden seal around the central title card. Dual payment badges flare with pure CSS conic border beams: Stripe ($19 Lifetime Founding Access) + Solana Tip.
+- **Visual**: Camera pulls back into high orbit. The *Orbital Lens of Providence* forms a golden seal around the central title card. Dual payment badges flare with pure CSS conic border beams: 100% free, no license; optional tips: Buy Us a Coffee (Stripe) + Solana Tip.
 - **Copy**:
   - Main Title: `AGENT GOD'S EYE`
   - Tagline: `Autonomous Shodan OSINT Tactical Radar`
-  - Pricing: `FOUNDING LIFETIME: $19 (REGULAR $79)`
+  - Pricing: `100% FREE · TIPS OPTIONAL`
   - URL: `godseye.nullai.tech • Engineered by Neal Frazier Tech (@1nc0gn30)`
 - **SFX / Procedural Audio**: Orchestral sub-drop, bright crystalline resolve chime, and smooth vinyl taper.
 

@@ -35,13 +35,7 @@
         "url": "https://agent-gods-eye.nullai.tech/",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Linux, macOS, Windows",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X"
-        },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "creator": {
           "@type": "Organization",
           "name": "Neal Frazier Tech",
@@ -69,7 +63,7 @@
           },
           {
             "@type": "Question",
-            "name": "What payment methods are supported for the Lifetime Founding Member License?",
+            "name": "Is Agent God's Eye free?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Everything is free with no license required. Optional tips are welcome via Stripe (cards, Apple Pay, Google Pay) or a Solana address."
@@ -88,37 +82,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Zoth 100% Open-Access & Buy Us a Coffee Invariant -->
-  <script id="zoth-open-access-init">
-    (function() {
-      try {
-        var keys = ['agent_audiocipher_pro', 'agent_cyber_turtle_pro', 'agent_datamosh_pro', 'agent_nexus3d_pro', 'agent_policy_pro', 'audiocipher_license', 'audiocipher_pro_licensed', 'badge3d_pro_licensed', 'certpath_pro_key', 'certpath_pro_licensed', 'cron_rhythm_pro_key', 'cron_rhythm_pro_licensed', 'cwv-speed-engine_pro_licensed', 'cwv_pro_licensed', 'cyber_turtle_pro_licensed', 'datamosh_pro_licensed', 'deepsearch-research-agent_pro_licensed', 'deepsearch_pro_licensed', 'entropy_studio_licensed', 'envguard-secrets-vault_pro_licensed', 'envguard_pro_license', 'etsy_connector_pro', 'jwt_guard_licensed', 'mdg_pro_licensed', 'neuro_pro_licensed', 'nexus3d_pro_licensed', 'omnipost_pro_key', 'omnipost_pro_licensed', 'osint_pro_licensed', 'payload-entropy-studio_pro_licensed', 'polyglot_pro_licensed', 'pro_licensed', 'promptmaster_pro_licensed', 'promptmaster_pro_active', 'robots-txt-auditor_pro_licensed', 'robots_pro_licensed', 'schema_illustrator_pro_licensed', 'sovereign_pro_licensed', 'subsweep-lead-scanner_pro_licensed', 'subsweep_licensed', 'turtle_pro_licensed', 'ufo_sacred_licensed', 'vector-search-engine_pro_licensed', 'vector_studio_pro_licensed', 'web-security-guard_pro_licensed', 'web_security_guard_licensed', 'yourdigitalspace_pro', 'zela_guide_pro_licensed', 'zoth_ascii_magic_pro', 'zoth_audiocipher_licensed', 'zoth_badge3d_licensed', 'zoth_cyber_turtle_licensed', 'zoth_datamosh_licensed', 'zoth_etsy_licensed', 'zoth_nexus3d_licensed', 'zoth_osint_licensed', 'zoth_policy_licensed', 'zoth_sacred_licensed', 'zoth_ufo_licensed'];
-        for (var i = 0; i < keys.length; i++) {
-          localStorage.setItem(keys[i], 'true');
-        }
-        localStorage.setItem('pm_license_v2', JSON.stringify({ method: 'open_access', ref: 'free_forever', at: '2026-01-01T00:00:00Z' }));
-        window.isPro = true;
-        window.isProLicensed = true;
-      } catch (e) {}
-    })();
-  </script>
-  <style id="zoth-open-access-override">
-    .paywall-overlay, .output-paywall-overlay, #outputPaywallOverlay, #schemaPaywallOverlay,
-    #transformerPaywallOverlay, #proPaywallModal, #licenseModal, #salesBanner, #founding-offer-banner,
-    #funnelHeroBanner, [data-alias="paywallOverlay"], [data-alias="founding-offer-banner"] {
-      display: none !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    .paywall-wrap #outputPreview, .paywall-wrap #reportContentArea, .paywall-content,
-    .paywall-content.locked, .paywall-wrap.is-locked #outputPreview, .paywall-wrap.locked #outputPreview {
-      filter: none !important;
-      -webkit-filter: none !important;
-      user-select: auto !important;
-      pointer-events: auto !important;
-    }
-  </style>
-
 </head>
 <body>
 
@@ -132,22 +95,19 @@
   <div class="container">
     
     <!-- HIGH-CONVERTING SALES FUNNEL BANNER -->
-    <aside id="salesBanner" class="sales-banner" aria-label="Special Launch Offer">
+    <aside id="salesBanner" class="sales-banner" aria-label="Free and open access">
       <div class="sales-banner-left">
-        <span class="founding-badge">FOUNDING ACCESS</span>
+        <span class="founding-badge">FREE &amp; OPEN</span>
         <div class="sales-banner-text">
           <strong>Sovereign OSINT Radar:</strong> <span class="price-current">100% Free &amp; Unlocked</span> • Global threat vectors, CIDR subnet tracer, and real-time webhook monitors.
         </div>
       </div>
       <div class="sales-banner-right">
-        <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener" class="btn btn-primary" id="btn-stripe-checkout" aria-label="Purchase Pro with Stripe">
+        <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener" class="btn btn-primary" id="btn-stripe-checkout" aria-label="Optional tip via Stripe">
           <span>★ ☕ Buy Us a Coffee (Stripe)</span>
         </a>
-        <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-depay-solana" onclick="openDePayCheckout()" aria-label="Purchase Pro with Solana">
+        <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-depay-solana" onclick="openDePayCheckout()" aria-label="Optional tip via Solana">
           <span>◎ Solana Tip</span>
-        </button>
-        <button type="button" class="btn-link" id="btn-open-license-modal" onclick="openPaywallModal('Enter License Key')" aria-label="Activate License Key">
-          Have a key? Activate
         </button>
       </div>
     </aside>
@@ -165,10 +125,6 @@
         <div id="shodanStatus" class="status-badge">
           <span class="status-dot"></span> CONNECTING RADAR...
         </div>
-        <span id="licenseBadge" class="brand-version" data-alias="pro-badge" style="background: rgba(212,175,55,0.1); color: var(--gold); border-color: rgba(212,175,55,0.3);">
-          ⚡ FREE TIER
-        </span>
-        <button type="button" class="btn btn-outline" id="btn-header-key" style="min-height: 30px; padding: 0.2rem 0.65rem; font-size: 0.75rem;" onclick="openPaywallModal('Enter License Key')">✦ Activate Pro</button>
       </div>
     </header>
 
@@ -303,7 +259,7 @@
               <span class="card-title-icon">✦</span> Cataloged Host Nodes
             </h2>
             <button type="button" class="btn btn-outline" id="btn-export-targets" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
-              ↓ Export JSON / CSV (Pro)
+              ↓ Export JSON
             </button>
           </div>
 
@@ -350,61 +306,14 @@
 
       </div>
 
-      <!-- FROSTED GLASS BLUR PAYWALL (Pro Subnet Sweeper & Threat Intel) -->
-      <section class="card col-12 paywall-wrapper" id="threat-paywall-section" aria-labelledby="proTitle" style="margin-top: 1rem;">
+      <section class="card col-12" id="export-section" aria-labelledby="exportTitle" style="margin-top: 1rem;">
         <div class="card-header">
-          <h2 id="proTitle" class="card-title">
-            <span>★ Automated CIDR Subnet Sweeper & Webhook Alerting Engine</span>
-          </h2>
-          <span class="founding-badge">PRO SUITE</span>
+          <h2 id="exportTitle" class="card-title"><span>↓ Export Targets</span></h2>
         </div>
-
-        <!-- Blurred Content -->
-        <div class="paywall-blurred" id="threat-paywall-content">
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
-              <div style="font-weight: 700; color: var(--gold);">Continuous Subnet CIDR Watcher</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-                Schedule background sweeps across target /24 and /16 CIDR subnets every 15 minutes.
-              </div>
-            </div>
-            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
-              <div style="font-weight: 700; color: var(--cyan);">Discord & Slack Webhook Dispatch</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-                Instant push alerts whenever a new camera stream or SCADA port opens on your perimeter.
-              </div>
-            </div>
-            <div style="background: var(--bg-card-subtle); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
-              <div style="font-weight: 700; color: var(--emerald);">Auditor-Grade Compliance Exporter</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-                Export raw ASN, CIDR, and CVE telemetry into formatted executive penetration reports.
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" id="btn-blurred-download" onclick="triggerProAction('export_targets')">
-            Download Complete Shodan Attack Surface Bundle
-          </button>
-        </div>
-
-        <!-- Lock Overlay -->
-        <div class="paywall-overlay" id="threat-paywall-overlay">
-          <div class="paywall-icon">★</div>
-          <h3 class="paywall-title">Unlock Automated Perimeter Surveillance</h3>
-          <p class="paywall-desc">
-            Upgrade to the Pro Founding Member License. Unlock automated CIDR subnet sweepers, webhook alert dispatchers, unmetered target inventory exports, and continuous attack surface monitoring.
-          </p>
-          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
-            <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener" class="btn btn-primary" id="btn-overlay-stripe">
-              <span>★ ☕ Buy Us a Coffee (Stripe)</span>
-            </a>
-            <button type="button" class="btn btn-solana btn-depay-trigger" id="btn-overlay-solana" onclick="openDePayCheckout()">
-              <span>◎ Solana Tip</span>
-            </button>
-            <button type="button" class="btn btn-outline" id="btn-overlay-key" onclick="openPaywallModal('Enter License Key')">
-              <span>Enter License Key</span>
-            </button>
-          </div>
-        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Download every tracked target as JSON. Free, no account or license needed.</p>
+        <button type="button" class="btn btn-primary" id="btn-export-bundle" onclick="triggerProAction('export_targets')">
+          Download Shodan Attack Surface Bundle
+        </button>
       </section>
 
     </main>
@@ -416,49 +325,6 @@
         <span id="hostModalHeading" class="founding-badge" style="background: var(--cyan); color: #08080B;">SHODAN HOST INTELLIGENCE</span>
         <div id="hostModalContent" style="margin-top: 1rem;">
           <!-- Populated dynamically by inspectHost() -->
-        </div>
-      </div>
-    </div>
-
-    <!-- PRO PAYWALL MODAL -->
-    <div id="paywallModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle" data-alias="licenseModal">
-      <div class="modal-card">
-        <button type="button" class="modal-close" onclick="closePaywallModal()" aria-label="Close dialog">&times;</button>
-        
-        <span class="founding-badge">PRO LICENSE</span>
-        <h3 id="modalTitle" style="font-size: 1.4rem; color: #FFF; margin: 0.75rem 0 0.25rem 0;">
-          Unlock Agent God's Eye Pro
-        </h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">
-          Triggered by: <strong id="modalFeatureName" style="color: var(--gold);">Advanced Tactical Feature</strong>
-        </p>
-
-        <ul class="matrix-list">
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Autonomous continuous CIDR subnet sweepers & background monitors</span></li>
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Instant Discord & Slack webhook alerts for new open ports & CVEs</span></li>
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Unmetered CSV & JSON raw target inventory exports</span></li>
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Interactive 3D kinetic planetary projection with high-resolution targeting</span></li>
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>100% Python standard library — zero external pip dependencies</span></li>
-          <li class="matrix-item"><span class="matrix-check">✓</span> <span>Lifetime access, free updates & sovereign local ownership</span></li>
-        </ul>
-
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
-          <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener" class="btn btn-primary" id="modal-stripe-btn" style="flex: 1; min-width: 180px;">
-            <span>★ ☕ Buy Us a Coffee (Stripe)</span>
-          </a>
-          <button type="button" class="btn btn-solana btn-depay-trigger" id="modal-solana-btn" onclick="openDePayCheckout()" style="flex: 1; min-width: 180px;" aria-label="Pay with Solana Tip">
-            <span>◎ Solana Tip</span>
-          </button>
-        </div>
-
-        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
-          <label for="licenseKeyInput" class="form-label" style="display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:0.5rem;">
-            Already purchased? Enter receipt email or license key:
-          </label>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="licenseKeyInput" class="form-control text-mono" placeholder="GODSEYE-PRO-2026" aria-label="License key input">
-            <button type="button" class="btn btn-outline" id="btn-modal-activate" data-alias="btnActivateKey" onclick="verifyLicenseKey()">Activate</button>
-          </div>
         </div>
       </div>
     </div>

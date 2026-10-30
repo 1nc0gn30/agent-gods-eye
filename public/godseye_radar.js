@@ -184,7 +184,6 @@ const ctx = canvas ? canvas.getContext('2d') : null;
 
 // Initialize when DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-  checkProLicense();
   setupCanvas();
   setupEventListeners();
   loadInitialData();
@@ -843,7 +842,7 @@ async function inspectHost(ip) {
 
     <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end;">
       <button type="button" class="btn btn-outline" onclick="copyToClipboard('${escapeHtml(data.ip)}')">📋 Copy IP</button>
-      <button type="button" class="btn btn-primary" onclick="triggerCIDRLookup('${escapeHtml(data.ip)}')">⚡ Trace Subnet CIDR (Pro)</button>
+      <button type="button" class="btn btn-primary" onclick="triggerCIDRLookup('${escapeHtml(data.ip)}')">⚡ Trace Subnet CIDR</button>
     </div>
   `;
 }
@@ -930,16 +929,12 @@ function copyToClipboard(text) {
   }
 }
 
-// Action Interceptor for Pro Features
+// Feature actions (all free, no gating)
 function triggerProAction(featureName) {
-  if (isProActive()) {
-    if (featureName === 'export_targets') {
-      exportTargetsBundle();
-    } else {
-      showToast(`[PRO ACTIVE] Executing: ${featureName}`);
-    }
+  if (featureName === 'export_targets') {
+    exportTargetsBundle();
   } else {
-    openPaywallModal(featureName);
+    showToast(`${featureName}: not implemented yet`);
   }
 }
 
@@ -956,111 +951,6 @@ function exportTargetsBundle() {
   downloadAnchor.click();
   downloadAnchor.remove();
   showToast("✓ Exported Shodan attack surface targets bundle");
-}
-
-// Pro Paywall Modal Controls
-function openPaywallModal(featureName) {
-  const modal = document.getElementById('paywallModal');
-  const label = document.getElementById('modalFeatureName');
-  if (label && featureName) label.textContent = featureName;
-  if (modal) modal.classList.add('open');
-}
-
-function closePaywallModal() {
-  const modal = document.getElementById('paywallModal');
-  if (modal) modal.classList.remove('open');
-}
-
-// Check & 100% Open Access
-function isProActive() {
-  const k1 = localStorage.getItem('godseye_pro_license');
-  const k2 = localStorage.getItem('agent_godseye_pro');
-  const k3 = localStorage.getItem('zoth_godseye_licensed');
-  const k4 = localStorage.getItem('pro_licensed');
-  const param = new URLSearchParams(window.location.search).get('licensed');
-  return k1 === 'active' || k1 === 'GODSEYE-PRO-2026' || k2 === 'GODSEYE-PRO-2026' || k3 === 'true' || k4 === 'true' || param === 'true';
-}
-
-function checkProLicense() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('licensed') === 'true' || params.get('session_id') || params.get('pro') === 'true') {
-    localStorage.setItem('godseye_pro_license', 'GODSEYE-PRO-2026');
-    localStorage.setItem('agent_godseye_pro', 'GODSEYE-PRO-2026');
-    localStorage.setItem('zoth_godseye_licensed', 'true');
-    localStorage.setItem('pro_licensed', 'true');
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }
-
-  if (isProActive()) {
-    activateProState();
-  }
-}
-
-function activateProState() {
-  localStorage.setItem('godseye_pro_license', 'GODSEYE-PRO-2026');
-  localStorage.setItem('agent_godseye_pro', 'GODSEYE-PRO-2026');
-  localStorage.setItem('zoth_godseye_licensed', 'true');
-  localStorage.setItem('pro_licensed', 'true');
-
-  document.body.classList.add('pro-licensed');
-  const badge1 = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
-  if (badge1) {
-    badge1.textContent = '⭐ PRO ACTIVE';
-    badge1.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
-    badge1.style.color = '#08080B';
-    badge1.style.borderColor = '#D4AF37';
-  }
-  const badge2 = document.getElementById('proStatusBadge');
-  if (badge2) {
-    badge2.textContent = '⭐ PRO ACTIVE';
-    badge2.style.background = 'linear-gradient(135deg, #D4AF37 0%, #B8972E 100%)';
-    badge2.style.color = '#08080B';
-    badge2.style.borderColor = '#D4AF37';
-  }
-
-  const sb = document.getElementById('salesBanner');
-  if (sb) sb.style.display = 'none';
-
-  const overlay = document.getElementById('threat-paywall-overlay');
-  if (overlay) overlay.style.display = 'none';
-
-  const blurred = document.getElementById('threat-paywall-content');
-  if (blurred) {
-    blurred.style.filter = 'none';
-    blurred.style.pointerEvents = 'auto';
-    blurred.style.opacity = '1';
-  }
-
-  closePaywallModal();
-  showToast('⭐ Sovereign Pro License Active — All Features Unlocked!');
-}
-
-window.activateLicenseKey = function(key) {
-  if (!key) key = 'GODSEYE-PRO-2026';
-  localStorage.setItem('godseye_pro_license', key);
-  localStorage.setItem('agent_godseye_pro', key);
-  localStorage.setItem('zoth_godseye_licensed', 'true');
-  localStorage.setItem('pro_licensed', 'true');
-  activateProState();
-  return true;
-};
-
-function verifyLicenseKey() {
-  const input = document.getElementById('licenseKeyInput');
-  const val = input ? input.value.trim() : '';
-  if (val.length < 6) {
-    showToast('Please enter a valid license key or receipt email (min 6 characters).');
-    return;
-  }
-
-  localStorage.setItem('godseye_pro_license', val);
-  localStorage.setItem('agent_godseye_pro', val);
-  localStorage.setItem('zoth_godseye_licensed', 'true');
-  localStorage.setItem('pro_licensed', 'true');
-  activateProState();
-  showToast('⭐ Pro License verified! All tactical sweeps & CIDR exporters unlocked.');
 }
 
 // Utility
