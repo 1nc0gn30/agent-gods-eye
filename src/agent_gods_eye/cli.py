@@ -51,7 +51,7 @@ C_RESET = "\033[0m"
 def print_banner() -> None:
     print(f"{C_GOLD}{C_BOLD}👁️ AGENT GODS EYE v1.0.0{C_RESET}")
     print(f"{C_DIM}Autonomous Shodan OSINT Tactical Radar & 3D Planetary Cockpit{C_RESET}")
-    print(f"{C_DIM}Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform{C_RESET}\n")
+    print(f"{C_DIM}Engineered by 1nc0gn30 (@1nc0gn30) • NullAI Platform{C_RESET}\n")
 
 
 def cmd_serve(args: argparse.Namespace) -> None:

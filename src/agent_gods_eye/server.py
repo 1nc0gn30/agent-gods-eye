@@ -115,6 +115,25 @@ class GodsEyeHandler(http.server.BaseHTTPRequestHandler):
         if path.startswith("/api/host/"):
             ip = path.split("/api/host/")[1].strip()
             details = self.server.shodan.host(ip)
+            # Enrich from local SQLite registry if present
+            stored = [t for t in self.server.storage.get_recent_targets(limit=200) if t.get("ip") == ip]
+            if stored:
+                top = stored[0]
+                details.setdefault("ip", ip)
+                details.setdefault("threat_score", top.get("threat_score", 80))
+                details.setdefault("threat_level", top.get("threat_level", "HIGH"))
+                details.setdefault("org", top.get("org"))
+                details.setdefault("country_name", top.get("country_name"))
+                details.setdefault("city", top.get("city"))
+                details.setdefault("latitude", top.get("latitude"))
+                details.setdefault("longitude", top.get("longitude"))
+                details.setdefault("ports", sorted(list({t.get("port") for t in stored if t.get("port")})))
+                details.setdefault("tags", [top.get("category", "RECON").lower()])
+                details.setdefault("banner", f"{top.get('product', 'Service')} on port {top.get('port')}")
+            else:
+                details.setdefault("ip", details.get("ip_str", ip))
+                details.setdefault("threat_score", 80)
+                details.setdefault("banner", f"Host {ip} interrogated via Shodan Tactical Radar.")
             self._send_json(details)
             return
 

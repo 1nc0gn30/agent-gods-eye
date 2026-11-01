@@ -1,7 +1,7 @@
 """agent-gods-eye
 
 Autonomous zero-dependency Shodan OSINT tactical radar and 3D planetary intelligence cockpit.
-Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform.
+Engineered by 1nc0gn30 (@1nc0gn30) • NullAI Platform.
 """
 
 from .shodan_client import ShodanClient

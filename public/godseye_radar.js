@@ -1,7 +1,7 @@
 /**
  * AGENT GOD'S EYE — 3D Kinetic Planetary Radar & OSINT Cockpit Engine
  * Zero Fake Work — 100% Real Working In-Browser Utility.
- * Neal Frazier Tech (@1nc0gn30) • NullAI Platform
+ * 1nc0gn30 (@1nc0gn30) • NullAI Platform
  */
 
 // Rich Built-in Datasets for Instant In-Browser Parity & Static Hosting
@@ -709,7 +709,9 @@ function renderTargetsTable(items) {
     if (t.threat_score >= 75) threatClass = 'threat-high';
     else if (t.threat_score >= 40) threatClass = 'threat-med';
 
-    const portsHtml = (t.ports || []).slice(0, 4).map(p => `<span class="port-badge">${p}</span>`).join('');
+    const portsList = Array.isArray(t.ports) ? t.ports : (t.port ? [t.port] : []);
+    const portsHtml = portsList.slice(0, 4).map(p => `<span class="port-badge">${p}</span>`).join('');
+    const hostLabel = Array.isArray(t.hostnames) ? t.hostnames.join(', ') : (t.hostname || '');
 
     return `
       <tr id="row-${escapeHtml(t.ip)}" onclick="inspectHost('${escapeHtml(t.ip)}')">
@@ -720,7 +722,7 @@ function renderTargetsTable(items) {
         </td>
         <td>
           <strong class="text-mono" style="color: var(--cyan); cursor: pointer;">${escapeHtml(t.ip)}</strong>
-          <div style="font-size: 0.72rem; color: var(--text-dim);">${escapeHtml(t.hostnames ? t.hostnames.join(', ') : '')}</div>
+          <div style="font-size: 0.72rem; color: var(--text-dim);">${escapeHtml(hostLabel)}</div>
         </td>
         <td>
           <div>${escapeHtml(t.country_name || 'Unknown')}</div>
@@ -907,9 +909,9 @@ function showToast(msg) {
   }, 2600);
 }
 
-// DePay Solana Integration
-function openDePayCheckout() {
-  if (typeof DePayWidgets !== 'undefined' && DePayWidgets.Payment) {
+// Solana Tip Solana Integration
+function openSolanaTipCheckout() {
+  if (typeof SolanaTipWidgets !== 'undefined' && SolanaTipWidgets.Payment) {
     (navigator.clipboard && navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK'));
   } else {
     window.open('solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank');
@@ -939,7 +941,13 @@ function triggerProAction(featureName) {
 }
 
 function triggerCIDRLookup(ip) {
-  triggerProAction(`CIDR Subnet Sweep for ${ip}`);
+  const parts = String(ip || '198.51.100.42').split('.');
+  const cidr = parts.length === 4 ? `${parts[0]}.${parts[1]}.${parts[2]}.0/24` : ip;
+  closeHostModal();
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = `net:${cidr}`;
+  showToast(`✓ Sweeping Subnet CIDR net:${cidr}`);
+  executeSearch(`net:${cidr}`);
 }
 
 function exportTargetsBundle() {

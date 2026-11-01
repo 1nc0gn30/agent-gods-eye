@@ -65,7 +65,7 @@ class ShodanClient:
 
         url = f"{self.BASE_URL}/api-info?key={self.api_key}"
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (Neal Frazier Tech)"})
+            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (1nc0gn30 • NullAI)"})
             with urllib.request.urlopen(req, timeout=10.0) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 data["status"] = "connected"
@@ -91,7 +91,7 @@ class ShodanClient:
         url = f"{self.BASE_URL}/shodan/host/search?{params}"
 
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (Neal Frazier Tech)"})
+            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (1nc0gn30 • NullAI)"})
             with urllib.request.urlopen(req, timeout=15.0) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 # Cap matches if needed
@@ -119,7 +119,7 @@ class ShodanClient:
 
         url = f"{self.BASE_URL}/shodan/host/{ip}?key={self.api_key}"
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (Neal Frazier Tech)"})
+            req = urllib.request.Request(url, headers={"User-Agent": "AgentGodsEye/1.0 (1nc0gn30 • NullAI)"})
             with urllib.request.urlopen(req, timeout=12.0) as resp:
                 return json.loads(resp.read().decode("utf-8"))
         except Exception:

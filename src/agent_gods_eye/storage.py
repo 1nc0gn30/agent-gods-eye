@@ -175,7 +175,10 @@ class GodsEyeStorage:
 
                 return {
                     "total_targets": total_targets,
+                    "total_nodes": total_targets,
                     "total_searches": total_searches,
+                    "high_threat_nodes": threat_dist.get("CRITICAL", 0) + threat_dist.get("HIGH", 0),
+                    "unique_countries": len(top_countries),
                     "threat_distribution": threat_dist,
                     "category_distribution": cat_dist,
                     "top_countries": top_countries

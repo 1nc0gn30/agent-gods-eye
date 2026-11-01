@@ -38,7 +38,7 @@
   - Main Title: `AGENT GOD'S EYE`
   - Tagline: `Autonomous Shodan OSINT Tactical Radar`
   - Pricing: `100% FREE · TIPS OPTIONAL`
-  - URL: `godseye.nullai.tech • Engineered by Neal Frazier Tech (@1nc0gn30)`
+  - URL: `godseye.nullai.tech • Engineered by 1nc0gn30 (@1nc0gn30)`
 - **SFX / Procedural Audio**: Orchestral sub-drop, bright crystalline resolve chime, and smooth vinyl taper.
 
 ---
