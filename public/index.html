@@ -325,5 +325,21 @@
 
   <script src="/godseye_radar.js"></script>
   <script src="/assets/sovereign-upgrade.js" defer></script>
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "agent-gods-eye",
+          toolName: "Agent God (God's Eye)",
+          tagline: "Real-time 3D orbital oversight and bird's-eye radar over all active AI agents!",
+          accentColor: "#EC4899",
+          steps: [{"icon": "\ud83d\udc41\ufe0f", "title": "Panoramic Agent Radar", "desc": "See all running subagents, threads, and background daemons in one centralized, multi-pane mission cockpit."}, {"icon": "\u26a1", "title": "Sub-Second Latency HUD", "desc": "Monitor CPU, RAM, and token velocity in real time so you spot stuck agents before they lock up."}, {"icon": "\ud83d\uded1", "title": "Emergency Killswitch", "desc": "Instantly freeze, terminate, or snapshot any agent's memory with a single click."}]
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
