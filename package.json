@@ -5,7 +5,9 @@
   "author": "1nc0gn30 (@1nc0gn30)",
   "license": "MIT",
   "scripts": {
-    "serve": "python3 -m http.server 8112 --directory public",
+    "start": "python3 server.py --port 8112",
+    "serve": "python3 server.py --port 8112",
+    "serve:public": "python3 -m http.server 8112 --directory public",
     "test": "pytest tests"
   }
 }

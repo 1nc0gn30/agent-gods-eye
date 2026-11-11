@@ -31,7 +31,6 @@
 
 /* Solana Rails */
 .btn-solana:focus-visible,
-#btn-depay-solana:focus-visible,
 #btn-overlay-solana:focus-visible,
 #modal-solana-btn:focus-visible {
   outline: 2px solid #14F195 !important;
