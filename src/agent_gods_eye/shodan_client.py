@@ -141,9 +141,9 @@ class ShodanClient:
                     "country_code": "US",
                     "country_name": "United States",
                     "region_code": "VA",
-                    "city": "Virginia Beach",
-                    "latitude": 36.8529,
-                    "longitude": -75.9780
+                    "city": "Ashburn",
+                    "latitude": 39.0438,
+                    "longitude": -77.4874
                 },
                 "vulns": ["CVE-2024-4577"]
             },
