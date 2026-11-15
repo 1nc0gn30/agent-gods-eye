@@ -126,10 +126,13 @@ def cmd_status(args: argparse.Namespace) -> None:
             data = json.loads(resp.read().decode("utf-8"))
     except Exception as e:
         if getattr(args, "json", False):
+            # --json is a machine-readable contract: JSON was produced, so exit 0
+            # (offline is reported in the payload). Human output still exits 1.
             print(json.dumps({"ok": False, "url": url, "error": str(e)}))
+            return
         else:
             print(f"{C_RED}Error connecting to agent-gods-eye at {url}: {e}{C_RESET}")
-        sys.exit(1)
+            sys.exit(1)
 
     if getattr(args, "json", False):
         print(json.dumps({"ok": True, "url": url, "stats": data}, indent=2))
