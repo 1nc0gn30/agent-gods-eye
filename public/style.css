@@ -75,64 +75,6 @@ body::before {
 }
 
 /* ==========================================================================
-   SALES FUNNEL BANNER (Above-the-Fold Sovereign Conversion Architecture)
-   ========================================================================== */
-.sales-banner {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, rgba(15, 17, 26, 0.96) 100%);
-  border: 1px solid var(--gold);
-  border-radius: 12px;
-  padding: 0.85rem 1.25rem;
-  margin: 1rem 0 1.25rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.15);
-}
-
-.sales-banner-left {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-}
-
-.founding-badge {
-  background: var(--gold);
-  color: #08080B;
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.sales-banner-text {
-  font-size: 0.9rem;
-  color: var(--text-main);
-}
-
-.price-strike {
-  text-decoration: line-through;
-  color: var(--text-dim);
-  margin-right: 0.35rem;
-}
-
-.price-current {
-  color: var(--gold);
-  font-weight: 800;
-}
-
-.sales-banner-right {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  flex-wrap: wrap;
-}
-
-/* ==========================================================================
    BUTTONS & CONTROLS
    ========================================================================== */
 .btn {
@@ -727,8 +669,6 @@ body::before {
 
 @media (max-width: 768px) {
   .col-3, .col-4, .col-6 { grid-column: span 12; }
-  .sales-banner { flex-direction: column; align-items: flex-start; }
-  .sales-banner-right { width: 100%; justify-content: flex-start; }
   .radar-stage { height: 360px; }
   .header { flex-direction: column; align-items: flex-start; }
 }
