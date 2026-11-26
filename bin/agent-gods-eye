@@ -1,23 +1,44 @@
 #!/usr/bin/env python3
+"""Agent God's Eye CLI wrapper (v2.6.0).
 
-# zothos-repo-shim: run the canonical repo copy so repo-relative paths resolve
-import os as _os, sys as _sys
-_here = _os.path.realpath(__file__)
-_repo = _os.environ.get("ZOTH_REPO_DIR") or '/home/zoth/NullAITech' + "/" + 'agent-gods-eye'
-_real = _os.path.join(_repo, "bin", 'agent-gods-eye')
-if _os.path.exists(_real) and _os.path.realpath(_real) != _here:
-    _os.execv(_sys.executable, [_sys.executable, _real] + _sys.argv[1:])
-del _os, _sys, _here, _repo, _real
+Resolves canonical repo via $ZOTH_REPO_DIR, sibling src/, user home NullAITech, or /opt/agent-gods-eye.
+Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform.
+"""
 
 import os
+import pwd
 import sys
 
-repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src_dir = os.path.join(repo_dir, "src")
-if src_dir not in sys.path:
-    sys.path.insert(0, src_dir)
 
-from agent_gods_eye.cli import main
+def _resolve_repo_dir() -> str:
+    candidates = []
+    env_dir = os.environ.get("ZOTH_REPO_DIR")
+    if env_dir:
+        candidates.append(env_dir)
+    here_repo = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    candidates.append(here_repo)
+    candidates.append(os.path.expanduser("~/NullAITech/agent-gods-eye"))
+    try:
+        pw_home = pwd.getpwuid(os.getuid()).pw_dir
+        if pw_home:
+            candidates.append(os.path.join(pw_home, "NullAITech", "agent-gods-eye"))
+    except Exception:
+        pass
+    candidates.append("/opt/agent-gods-eye")
+
+    for cand in candidates:
+        if cand and os.path.isdir(os.path.join(cand, "src", "agent_gods_eye")):
+            return cand
+    return here_repo
+
+
+_repo_dir = _resolve_repo_dir()
+_src_dir = os.path.join(_repo_dir, "src")
+if os.path.isdir(_src_dir) and _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
+
+from agent_gods_eye.cli import main  # noqa: E402
+
 
 if __name__ == "__main__":
     main()

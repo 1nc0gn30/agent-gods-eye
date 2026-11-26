@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Agent God's Eye - Standalone Server Daemon.
+"""Agent God's Eye - Standalone Server Daemon (v2.6.0).
 
-Engineered by 1nc0gn30 (@1nc0gn30) • NullAI Platform.
+Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform.
 100% Python Standard Library — Zero External Dependencies.
 """
 
@@ -16,15 +16,15 @@ SRC_DIR = os.path.join(SCRIPT_DIR, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from agent_gods_eye.cli import cmd_serve
+from agent_gods_eye.cli import _default_bind_host, cmd_serve
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Agent God's Eye Server")
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Agent God's Eye Server v2.6.0")
     parser.add_argument("--port", type=int, default=8112, help="Web Cockpit Port (default 8112)")
-    parser.add_argument("--host", default="127.0.0.1", help="Host interface (default 127.0.0.1)")
+    parser.add_argument("--host", default=_default_bind_host(), help="Host interface (default 127.0.0.1)")
     parser.add_argument("--db", default=os.path.join(SCRIPT_DIR, "godseye.db"), help="SQLite database path")
-    parser.add_argument("--key", default=None, help="Shodan API key override")
+    parser.add_argument("--key", default=None, help="Shodan API key override (prefer SHODAN_API_KEY)")
 
     args = parser.parse_args()
     cmd_serve(args)

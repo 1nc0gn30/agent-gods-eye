@@ -1,60 +1,228 @@
 #!/usr/bin/env python3
-"""⚡ Agent Gods Eye — Sovereign Unicode U+2800 Braille TUI & Benchmark Harness
-Engineered by 1nc0gn30 (@1nc0gn30) • NullAI Platform
-Paired Uncommon-Web Library: Canvas UI (canvasui-html-effects)
+"""Agent God's Eye — Live Terminal Radar Telemetry Viewer (v2.6.0).
+
+100% Python Standard Library — Queries live :8112 REST API with honest SQLite fallback.
+Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform.
 """
-import argparse, json, math, os, sys, time
 
-BRAILLE_BASE = 0x2800
-METRICS = ["AST/Engine Latency (ms)", "Throughput (ops/s)", "Memory Footprint (MB)", "Zero-Trust Audit Status"]
-SUMMARY = "Sovereign Agent Gods Eye engine with deterministic local execution and real-time telemetry."
-UW_SLUG = "canvasui-html-effects"
-UW_INSTALL = "npx shadcn@latest add https://canvasui.dev/r/liquid-react.json https://canvasui.dev/r/shatter-react.json https://canvasui.dev/r/peel-react.json https://canvasui.dev/r/ripple-react.json https://canvasui.dev/r/cloth-react.json https://canvasui.dev/r/vhs-react.json"
+from __future__ import annotations
 
-def braille_sparkline(vals):
-    out = []
-    for i in range(0, len(vals) - 1, 2):
-        v1 = max(0, min(3, int(vals[i] * 3.99)))
-        v2 = max(0, min(3, int(vals[i+1] * 3.99)))
-        dots1 = (0x40, 0x04, 0x02, 0x01)[v1]
-        dots2 = (0x80, 0x20, 0x10, 0x08)[v2]
-        out.append(chr(BRAILLE_BASE | dots1 | dots2))
-    return "".join(out)
+import argparse
+import json
+import os
+import pwd
+import sqlite3
+import sys
+import time
+import urllib.request
+from typing import Any, Dict, List, Optional, Tuple
 
-def main():
-    ap = argparse.ArgumentParser(description="Agent Gods Eye Sovereign TUI & Benchmark")
-    ap.add_argument("--json", action="store_true", help="Output JSON telemetry and exit")
-    ap.add_argument("--benchmark", action="store_true", help="Run deterministic latency benchmark")
-    ap.add_argument("--frames", type=int, default=18, help="TUI frames to render")
-    args = ap.parse_args()
+VERSION = "2.6.0"
+DEFAULT_PORT = 8112
 
-    t0 = time.perf_counter()
-    samples = [0.5 + 0.45 * math.sin(i * 0.35) for i in range(48)]
-    elapsed_ms = round((time.perf_counter() - t0) * 1000.0 + 0.42, 3)
+
+def _resolve_repo_dir() -> str:
+    cands = [
+        os.environ.get("ZOTH_REPO_DIR"),
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+        os.path.expanduser("~/NullAITech/agent-gods-eye"),
+    ]
+    try:
+        pw_home = pwd.getpwuid(os.getuid()).pw_dir
+        if pw_home:
+            cands.append(os.path.join(pw_home, "NullAITech", "agent-gods-eye"))
+    except Exception:
+        pass
+    cands.append("/opt/agent-gods-eye")
+    for cand in cands:
+        if cand and os.path.isdir(os.path.join(cand, "src", "agent_gods_eye")):
+            return cand
+    return os.getcwd()
+
+
+def _http_get_json(url: str, timeout: float = 2.0) -> Optional[Dict[str, Any]]:
+    try:
+        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            if resp.status == 200:
+                return json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        return None
+    return None
+
+
+def _sqlite_fallback(db_path: str) -> Tuple[Dict[str, Any], Dict[str, Any], List[Dict[str, Any]]]:
+    info = {
+        "api_configured": False,
+        "mode": "offline_sqlite",
+        "plan": "offline",
+        "query_credits": 0,
+        "scan_credits": 0,
+        "status": "daemon_offline",
+    }
+    stats = {
+        "total_targets": 0,
+        "total_nodes": 0,
+        "high_threat_nodes": 0,
+        "unique_countries": 0,
+        "total_searches": 0,
+        "shodan_connected": False,
+    }
+    targets: List[Dict[str, Any]] = []
+    if not os.path.isfile(db_path):
+        return info, stats, targets
+
+    try:
+        conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, timeout=2.0)
+        conn.row_factory = sqlite3.Row
+        try:
+            stats["total_targets"] = conn.execute("SELECT COUNT(*) FROM targets;").fetchone()[0]
+            stats["total_nodes"] = stats["total_targets"]
+            stats["total_searches"] = conn.execute("SELECT COUNT(*) FROM searches;").fetchone()[0]
+            stats["unique_countries"] = conn.execute(
+                "SELECT COUNT(DISTINCT country) FROM targets WHERE country IS NOT NULL AND country != '';"
+            ).fetchone()[0]
+            stats["high_threat_nodes"] = conn.execute(
+                "SELECT COUNT(*) FROM targets WHERE threat_level IN ('CRITICAL', 'HIGH');"
+            ).fetchone()[0]
+            rows = conn.execute(
+                """
+                SELECT ip, port, country, country_name, city, org, threat_level, threat_score, product
+                FROM targets
+                ORDER BY threat_score DESC, last_seen DESC
+                LIMIT 10
+                """
+            ).fetchall()
+            targets = [dict(r) for r in rows]
+        finally:
+            conn.close()
+    except Exception:
+        pass
+
+    return info, stats, targets
+
+
+def collect_snapshot(host: str, port: int, db_path: str) -> Dict[str, Any]:
+    base = f"http://{host}:{port}"
+    health = _http_get_json(f"{base}/api/health")
+    if health and health.get("status") == "ok":
+        info = _http_get_json(f"{base}/api/info") or {}
+        stats = _http_get_json(f"{base}/api/stats") or {}
+        tgt_payload = _http_get_json(f"{base}/api/targets?limit=10") or {}
+        return {
+            "tool": "agent-gods-eye",
+            "version": VERSION,
+            "daemon_live": True,
+            "endpoint": base,
+            "source": "live_daemon",
+            "health": health,
+            "info": info,
+            "stats": stats,
+            "targets": tgt_payload.get("targets", []),
+        }
+
+    info, stats, targets = _sqlite_fallback(db_path)
+    return {
+        "tool": "agent-gods-eye",
+        "version": VERSION,
+        "daemon_live": False,
+        "endpoint": base,
+        "source": "sqlite_fallback" if os.path.isfile(db_path) else "idle",
+        "health": None,
+        "info": info,
+        "stats": stats,
+        "targets": targets,
+    }
+
+
+def render_frame(snap: Dict[str, Any]) -> str:
+    W = 76
+    bar = "=" * W
+    sep = "-" * W
+    daemon_tag = f"ONLINE ({snap['endpoint']})" if snap["daemon_live"] else f"OFFLINE (fallback: {snap['source']})"
+    info = snap.get("info") or {}
+    stats = snap.get("stats") or {}
+    mode_str = "SHODAN LIVE" if info.get("api_configured") else "OFFLINE DEMO"
+    plan_str = str(info.get("plan") or "offline").upper()
+
+    lines = [
+        bar,
+        f"  AGENT GOD'S EYE v{VERSION} // LIVE RADAR TUI",
+        f"  Daemon: {daemon_tag:<38} Mode: {mode_str}",
+        sep,
+        (
+            f"  Plan: {plan_str:<12} Targets: {stats.get('total_targets', 0):<6} "
+            f"High Threat: {stats.get('high_threat_nodes', 0):<5} "
+            f"Countries: {stats.get('unique_countries', 0):<4} "
+            f"Scans: {stats.get('total_searches', 0)}"
+        ),
+        sep,
+        f"  {'IP ADDRESS':<16} {'PORT':<6} {'CC':<4} {'SCORE':<7} {'PRODUCT / ORG':<37}",
+        sep,
+    ]
+    targets = snap.get("targets") or []
+    if not targets:
+        lines.append("  (No cataloged targets yet — run: agent-gods-eye search 'port:502 modbus')")
+    else:
+        for t in targets[:8]:
+            ip = str(t.get("ip") or "")[:16]
+            ports = t.get("ports")
+            port_s = str(ports[0] if isinstance(ports, list) and ports else t.get("port") or 0)[:6]
+            cc = str(t.get("country") or "XX")[:4]
+            score = f"{t.get('threat_score', 0)}/100"
+            desc = f"{t.get('product') or ''} · {t.get('org') or ''}".strip(" ·")[:37]
+            lines.append(f"  {ip:<16} {port_s:<6} {cc:<4} {score:<7} {desc:<37}")
+    lines.append(bar)
+    lines.append("  Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform")
+    return "\n".join(lines)
+
+
+def main() -> None:
+    repo_dir = _resolve_repo_dir()
+    parser = argparse.ArgumentParser(
+        prog="agent-gods-eye-tui",
+        description=f"Agent God's Eye Live Terminal Radar Viewer (v{VERSION})",
+    )
+    parser.add_argument("-v", "--version", action="version", version=f"agent-gods-eye-tui {VERSION}")
+    parser.add_argument("--host", default="127.0.0.1", help="Loopback daemon host (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Loopback daemon port (default: 8112)")
+    parser.add_argument("--db", default=os.path.join(repo_dir, "godseye.db"), help="Fallback SQLite DB path")
+    parser.add_argument("--once", action="store_true", help="Render a single radar frame and exit")
+    parser.add_argument("--json", action="store_true", help="Output live radar snapshot as JSON and exit")
+    parser.add_argument("--status", action="store_true", help="Print compact daemon & target status and exit")
+    parser.add_argument("--interval", type=float, default=2.0, help="Refresh interval in seconds (default: 2.0)")
+
+    args = parser.parse_args()
+    snap = collect_snapshot(args.host, args.port, args.db)
 
     if args.json:
-        print(json.dumps({
-            "tool": "agent-gods-eye",
-            "title": "Agent Gods Eye",
-            "architect": "1nc0gn30 (@1nc0gn30) • NullAI Platform",
-            "summary": SUMMARY,
-            "uncommon_web": {"slug": UW_SLUG, "install": UW_INSTALL},
-            "audio_lufs": -14.0,
-            "benchmark_ms": elapsed_ms,
-            "metrics": METRICS,
-            "braille_signature": braille_sparkline(samples),
-        }, indent=2))
+        print(json.dumps(snap, indent=2))
         return
 
-    print("\033[1;33m╭──────────────────────────────────────────────────────────────────────────╮\033[0m")
-    print(f"\033[1;33m│\033[0m ⚡ \033[1;37mAgent Gods Eye                  \033[0m │ \033[36m1nc0gn30 • NullAI Platform\033[0m         \033[1;33m│\033[0m")
-    print("\033[1;33m├──────────────────────────────────────────────────────────────────────────┤\033[0m")
-    print(f"\033[1;33m│\033[0m {SUMMARY[:72]:<72} \033[1;33m│\033[0m")
-    print(f"\033[1;33m│\033[0m Uncommon-Web: \033[32m{UW_SLUG:<24}\033[0m Audio: \033[35m-14.0 LUFS Mastered\033[0m   \033[1;33m│\033[0m")
-    for idx, m in enumerate(METRICS[:4]):
-        wave = braille_sparkline([0.5 + 0.45 * math.sin((i + idx * 3) * 0.4) for i in range(40)])
-        print(f"\033[1;33m│\033[0m  • {m[:24]:<24} \033[33m{wave}\033[0m  PASS   \033[1;33m│\033[0m")
-    print("\033[1;33m╰──────────────────────────────────────────────────────────────────────────╯\033[0m")
+    if args.status:
+        st = snap["stats"]
+        state = "ONLINE" if snap["daemon_live"] else "OFFLINE"
+        print(
+            f"agent-gods-eye v{VERSION} [{state}] endpoint={snap['endpoint']} "
+            f"targets={st.get('total_targets', 0)} countries={st.get('unique_countries', 0)} "
+            f"source={snap['source']}"
+        )
+        return
+
+    if args.once or not sys.stdout.isatty():
+        print(render_frame(snap))
+        return
+
+    try:
+        while True:
+            snap = collect_snapshot(args.host, args.port, args.db)
+            sys.stdout.write("\033[2J\033[H")
+            sys.stdout.write(render_frame(snap) + "\n\n  Press Ctrl+C to exit.\n")
+            sys.stdout.flush()
+            time.sleep(max(0.5, args.interval))
+    except KeyboardInterrupt:
+        pass
+
 
 if __name__ == "__main__":
     main()

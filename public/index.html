@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent God's Eye — Autonomous Shodan OSINT Tactical Radar & Threat Surface Recon</title>
-  <meta name="description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, threat scoring (0-100), and SSE telemetry stream for AI agents.">
+  <title>Agent God's Eye v2.6.0 — Autonomous Shodan OSINT Tactical Radar &amp; Threat Surface Recon</title>
+  <meta name="description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive dual-theme 3D planetary globe, SCADA/camera/VNC attack surface reconnaissance, threat scoring (0-100), and live SSE telemetry.">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon.png">
   <link rel="apple-touch-icon" href="/assets/icon.png">
 
   <!-- OpenGraph Meta Tags -->
-  <meta property="og:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
-  <meta property="og:description" content="Autonomous zero-dependency Shodan OSINT tactical radar. Interactive 3D planetary globe, real-time SCADA/camera/VNC attack surface reconnaissance, and threat scoring.">
+  <meta property="og:title" content="Agent God's Eye v2.6.0 — Autonomous Shodan OSINT Tactical Radar">
+  <meta property="og:description" content="Zero-dependency Shodan OSINT tactical radar, dual-theme 3D planetary globe, threat scoring, JSON/CSV export, live TUI, and stdio MCP server.">
   <meta property="og:url" content="https://agent-gods-eye.nullai.tech/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://agent-gods-eye.nullai.tech/assets/banner.png">
@@ -20,8 +20,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@1nc0gn30">
   <meta name="twitter:creator" content="@1nc0gn30">
-  <meta name="twitter:title" content="Agent God's Eye — Autonomous Shodan OSINT Tactical Radar">
-  <meta name="twitter:description" content="Global geospatial threat vector radar & autonomous attack surface surveillance for AI agents. 100% Python standard library.">
+  <meta name="twitter:title" content="Agent God's Eye v2.6.0 — Autonomous Shodan OSINT Tactical Radar">
+  <meta name="twitter:description" content="Global geospatial threat vector radar &amp; autonomous attack surface reconnaissance. 100% Python standard library.">
   <meta name="twitter:image" content="https://agent-gods-eye.nullai.tech/assets/banner.png">
 
   <!-- AEO & SEO Schema.org Graph -->
@@ -32,13 +32,14 @@
       {
         "@type": ["WebApplication", "SoftwareApplication"],
         "name": "Agent God's Eye",
+        "softwareVersion": "2.6.0",
         "url": "https://agent-gods-eye.nullai.tech/",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Linux, macOS, Windows",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "creator": {
           "@type": "Organization",
-          "name": "1nc0gn30 • NullAI",
+          "name": "Neal Frazier Tech (@1nc0gn30)",
           "url": "https://nullai.tech"
         }
       },
@@ -50,15 +51,15 @@
             "name": "What is Agent God's Eye and how does it map global attack surfaces?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Agent God's Eye is an autonomous tactical OSINT radar that integrates directly with Shodan APIs. It catalogs exposed public infrastructure—including RTSP surveillance cameras, industrial SCADA/Modbus control systems, open databases, and remote desktop services—normalizing them into Cartesian 3D coordinates on an interactive planetary globe with automated threat scoring (0-100)."
+              "text": "Agent God's Eye is a local Python 3.10+ Shodan OSINT tactical radar daemon (127.0.0.1:8112) with a 3D planetary globe, RFC 5737 offline demo mode, strict SSRF/IP validation, exposure threat scoring (0-100), JSON/CSV exports, live TUI, and stdio MCP server."
             }
           },
           {
             "@type": "Question",
-            "name": "Does Agent God's Eye require external pip dependencies?",
+            "name": "How does Agent God's Eye handle privacy and target IP safety?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. The backend is engineered 100% on the Python 3.10+ standard library (urllib.request, sqlite3, http.server, socketserver) with zero external pip dependencies. It runs completely standalone on port 8112 with zero telemetry leaks."
+              "text": "The daemon binds strictly to loopback 127.0.0.1:8112, validates Origin and Host headers, never stores Shodan API keys in browser localStorage, blocks loopback/RFC1918/cloud-metadata IPs on /api/host/<ip>, and uses strictly RFC 5737 test ranges in offline demo mode."
             }
           },
           {
@@ -66,7 +67,7 @@
             "name": "Is Agent God's Eye free?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Agent God's Eye is 100% free and open-access with zero paywalls or feature gates. Optional community support is welcomed via Buy Us a Coffee (Stripe) or Solana tip (GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK)."
+              "text": "Yes. Agent God's Eye is 100% free and open-access with zero paywalls or feature gates. Optional support is accepted via Buy Us a Coffee (Stripe) or Solana tip (GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK)."
             }
           }
         ]
@@ -75,44 +76,67 @@
   }
   </script>
 
+  <!-- Early Theme & Embed Resolution (zero paint flash) -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var qTheme = params.get('theme');
+      var stored = null;
+      try { stored = window.localStorage.getItem('age-theme'); } catch (e) {}
+      var sysLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      var theme = (qTheme === 'light' || qTheme === 'dark') ? qTheme : (stored || (sysLight ? 'light' : 'dark'));
+      document.documentElement.setAttribute('data-theme', theme);
+      if (params.get('embed') === '1') {
+        document.documentElement.setAttribute('data-embed', '1');
+      }
+    })();
+  </script>
+
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/wave.css">
   <link rel="stylesheet" href="/wave-states.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
-  
 </head>
 <body>
 
-<div id="zoth-coffee-support-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(212,175,55,0.14)); border-bottom: 1px solid rgba(212,175,55,0.35); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; z-index: 9999;">
-  <span style="color: #10B981; font-weight: 800;">✦ 100% FREE &amp; OPEN ACCESS · ZERO PAYWALLS</span>
-  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="background: #D4AF37; color: #08080B; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">☕ Buy Us a Coffee (Stripe)</a>
-  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" onclick="if(navigator.clipboard){navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK');this.textContent='✓ Copied GG2eQb...dXoK!';}" style="background: rgba(20,241,149,0.15); color: #14F195; border: 1px solid rgba(20,241,149,0.45); padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">◎ Solana Tip (GG2e...dXoK)</a>
-</div>
-
+  <div id="zoth-coffee-support-bar" class="coffee-bar">
+    <span class="coffee-tagline">✦ 100% FREE &amp; OPEN ACCESS · ZERO PAYWALLS</span>
+    <div class="coffee-actions">
+      <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" class="coffee-btn coffee-btn-stripe">☕ Buy Us a Coffee</a>
+      <button type="button" id="btnCopySolanaBar" class="coffee-btn coffee-btn-solana" data-solana="GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK">◎ Solana Tip (GG2e...dXoK)</button>
+    </div>
+  </div>
 
   <div class="container">
 
     <!-- HEADER & STATUS -->
     <header class="header">
       <div class="brand-wrap">
-        <img src="assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="36" height="36">
+        <img src="/assets/icon.png" alt="Agent God's Eye Planetary Reticle Logo" class="brand-icon" width="40" height="40">
         <h1 class="brand-title">
           AGENT GOD'S EYE
-          <span class="brand-version">v2.5 SOVEREIGN</span>
+          <span class="brand-version">v2.6.0</span>
         </h1>
       </div>
-      <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-        <div id="shodanStatus" class="status-badge">
-          <span class="status-dot"></span> CONNECTING RADAR...
+      <div class="header-actions">
+        <div id="shodanStatus" class="status-badge status-offline" role="status" aria-live="polite">
+          <span class="status-dot"></span>
+          <span id="shodanStatusText">CHECKING RADAR...</span>
         </div>
+        <button type="button" id="btnThemeToggle" class="btn btn-outline theme-toggle-btn" aria-label="Toggle Editorial Ivory Light or Obsidian Dark theme">
+          <span id="themeToggleLabel">☀ Light</span>
+        </button>
       </div>
     </header>
 
+    <!-- EMBED COMPACT STATUS STRIP (visible only when ?embed=1) -->
+    <div class="embed-strip" aria-label="Embedded Radar Status">
+      <span class="brand-version">v2.6.0</span>
+      <span id="embedModeText" class="embed-mode-label">CONNECTING...</span>
+    </div>
+
     <!-- MAIN COCKPIT -->
     <main>
-      
+
       <!-- BENTO METRICS -->
       <section class="bento-grid" aria-label="Tactical Telemetry Overview">
         <div class="card col-3">
@@ -122,8 +146,8 @@
             </span>
           </div>
           <div class="metric-box">
-            <div id="metricPlan" class="metric-val val-gold">DEV</div>
-            <div id="metricCredits" class="metric-sub">Syncing credits...</div>
+            <div id="metricPlan" class="metric-val val-gold">OFFLINE</div>
+            <div id="metricCredits" class="metric-sub">0 Query / 0 Scan</div>
           </div>
         </div>
 
@@ -142,7 +166,7 @@
         <div class="card col-3">
           <div class="card-header">
             <span class="card-title">
-              <span class="card-title-icon">⚠️</span> Critical Nodes
+              <span class="card-title-icon">⚠</span> Critical Nodes
             </span>
           </div>
           <div class="metric-box">
@@ -159,28 +183,28 @@
           </div>
           <div class="metric-box">
             <div id="metricCountries" class="metric-val val-emerald">0</div>
-            <div class="metric-sub">Unique Sovereign Jurisdictions</div>
+            <div class="metric-sub">Unique Jurisdictions</div>
           </div>
         </div>
       </section>
 
       <!-- 3D KINETIC PLANETARY RADAR -->
-      <section class="card col-12" style="margin-bottom: 2rem;" aria-label="3D Tactical Planetary Radar">
+      <section class="card col-12 section-gap" aria-label="3D Tactical Planetary Radar">
         <div class="card-header">
           <h2 class="card-title">
             <span class="card-title-icon">◎</span> Kinetic 3D Planetary Radar Stage
           </h2>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">
-            Drag to rotate • Click node to focus
+          <span class="card-hint">
+            Drag to rotate · Click node to focus
           </span>
         </div>
 
         <div class="radar-stage">
-          <canvas id="globeCanvas"></canvas>
-          
+          <canvas id="globeCanvas" aria-label="Interactive 3D planetary OSINT target globe"></canvas>
+
           <div class="radar-overlay-hud">
             <span class="hud-tag" id="hudCoord">LAT: 00.00° | LON: 00.00°</span>
-            <span class="hud-tag" id="hudTarget" style="color: var(--gold); border-color: rgba(212,175,55,0.4);">
+            <span class="hud-tag hud-tag-gold" id="hudTarget">
               TARGET: SCANNING SURFACE...
             </span>
           </div>
@@ -193,39 +217,40 @@
       </section>
 
       <!-- TACTICAL SEARCH & FILTER CONTROL -->
-      <section class="card col-12" style="margin-bottom: 2rem;" aria-label="Tactical Vector Filter">
+      <section class="card col-12 section-gap" aria-label="Tactical Vector Filter">
         <div class="card-header">
           <h2 class="card-title">
             <span class="card-title-icon">⌕</span> Surface Vector Query Engine
           </h2>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">
-            Live Shodan API Interrogation
+          <span id="queryModeHint" class="card-hint">
+            Shodan API &amp; RFC 5737 Offline Filter
           </span>
         </div>
 
         <div class="search-bar-wrap">
           <form id="searchForm" class="search-input-group">
-            <input type="text" id="searchInput" class="form-control text-mono" placeholder="port:554 has_screenshot:true country:US" value="port:554 has_screenshot:true" aria-label="Shodan search query input">
+            <label for="searchInput" class="sr-only">Shodan OSINT Search Query</label>
+            <input type="text" id="searchInput" class="form-control text-mono" placeholder="port:554 has_screenshot:true country:US" value="port:554 has_screenshot:true">
             <button type="submit" class="btn btn-cyan">
               <span>⚡ Execute Recon Sweep</span>
             </button>
           </form>
 
-          <div class="preset-chips">
+          <div class="preset-chips" role="group" aria-label="Preset OSINT queries">
             <button type="button" class="chip preset-chip active" data-query="port:554 has_screenshot:true">
               ✦ Surveillance RTSP / Webcams
             </button>
             <button type="button" class="chip preset-chip" data-query="port:502 modbus">
               ✦ Industrial SCADA / Modbus
             </button>
-            <button type="button" class="chip preset-chip" data-query="port:27017 'MongoDB Server Information'">
+            <button type="button" class="chip preset-chip" data-query="port:27017 mongodb">
               ✦ Exposed MongoDB
             </button>
-            <button type="button" class="chip preset-chip" data-query="port:5900 'authentication disabled'">
+            <button type="button" class="chip preset-chip" data-query="port:5900 vnc">
               ▣ Open VNC Remote Desktops
             </button>
             <button type="button" class="chip preset-chip" data-query="has_vuln:true">
-              ⚠️ Exploit Surface (CVEs)
+              ⚠ Exploit Surface (CVEs)
             </button>
           </div>
         </div>
@@ -233,16 +258,21 @@
 
       <!-- RECON TARGETS & SSE STREAM SPLIT -->
       <div class="bento-grid">
-        
+
         <!-- TARGETS TABLE -->
         <section class="card col-8" aria-label="Detected Surface Targets">
-          <div class="card-header">
+          <div class="card-header card-header-wrap">
             <h2 class="card-title">
               <span class="card-title-icon">✦</span> Cataloged Host Nodes
             </h2>
-            <button type="button" class="btn btn-outline" id="btn-export-targets" style="min-height: 34px; padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="triggerProAction('export_targets')">
-              ↓ Export JSON
-            </button>
+            <div class="export-inline-actions">
+              <button type="button" class="btn btn-outline btn-compact" id="btn-export-targets" data-export-format="json">
+                ↓ Export JSON
+              </button>
+              <button type="button" class="btn btn-outline btn-compact" id="btn-export-csv" data-export-format="csv">
+                ↓ Export CSV
+              </button>
+            </div>
           </div>
 
           <div class="table-responsive">
@@ -259,7 +289,7 @@
               </thead>
               <tbody id="targetsTableBody">
                 <tr>
-                  <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-dim);">
+                  <td colspan="6" class="table-placeholder">
                     Initializing tactical scan...
                   </td>
                 </tr>
@@ -274,12 +304,12 @@
             <h2 class="card-title">
               <span class="card-title-icon">✦</span> Live Telemetry Feed
             </h2>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald);">
-              ● SSE LIVE (:8112)
+            <span id="sseStatusTag" class="sse-status-tag">
+              ● SSE CONNECTING
             </span>
           </div>
 
-          <div id="streamConsole" class="stream-box">
+          <div id="streamConsole" class="stream-box" role="log" aria-live="polite">
             <div class="stream-entry">
               <span class="stream-time">[INIT]</span> Connecting to Agent God's Eye radar telemetry stream...
             </div>
@@ -288,14 +318,20 @@
 
       </div>
 
-      <section class="card col-12" id="export-section" aria-labelledby="exportTitle" style="margin-top: 1rem;">
+      <!-- EXPORT BUNDLE SECTION -->
+      <section class="card col-12 export-section" id="export-section" aria-labelledby="exportTitle">
         <div class="card-header">
           <h2 id="exportTitle" class="card-title"><span>↓ Export Targets</span></h2>
         </div>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Download every tracked target as JSON. Free, no account or license needed.</p>
-        <button type="button" class="btn btn-primary" id="btn-export-bundle" onclick="triggerProAction('export_targets')">
-          Download Shodan Attack Surface Bundle
-        </button>
+        <p class="export-desc">Download every tracked target as JSON or formula-safe CSV. 100% free and unlocked with zero paywalls.</p>
+        <div class="export-bundle-actions">
+          <button type="button" class="btn btn-primary" id="btn-export-bundle-json" data-export-format="json">
+            ↓ Download JSON Surface Bundle
+          </button>
+          <button type="button" class="btn btn-outline" id="btn-export-bundle-csv" data-export-format="csv">
+            ↓ Download Formula-Safe CSV
+          </button>
+        </div>
       </section>
 
     </main>
@@ -303,45 +339,56 @@
     <!-- HOST INSPECTION MODAL -->
     <div id="hostModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="hostModalHeading">
       <div class="modal-card">
-        <button type="button" class="modal-close" onclick="closeHostModal()" aria-label="Close host inspection">&times;</button>
-        <span id="hostModalHeading" class="founding-badge" style="background: var(--cyan); color: #08080B;">SHODAN HOST INTELLIGENCE</span>
-        <div id="hostModalContent" style="margin-top: 1rem;">
-          <!-- Populated dynamically by inspectHost() -->
+        <button type="button" id="btnCloseHostModal" class="modal-close" aria-label="Close host inspection">&times;</button>
+        <span id="hostModalHeading" class="modal-eyebrow">SHODAN HOST INTELLIGENCE</span>
+        <div id="hostModalContent" class="modal-content-wrap">
+          <!-- Populated safely via DOM builders in godseye_radar.js -->
         </div>
       </div>
     </div>
 
-    <!-- SUBTLE ATTRIBUTION FOOTER -->
+    <!-- ATTRIBUTION FOOTER -->
     <footer class="footer">
       <div>
-        Engineered by <strong>1nc0gn30 • NullAI</strong> (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a>
+        Engineered by <strong>Neal Frazier Tech</strong> (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener noreferrer">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener noreferrer">NullAI Platform</a>
       </div>
-      <div style="margin-top: 0.5rem; font-size: 0.78rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
-        <a href="https://github.com/1nc0gn30/agent-gods-eye" target="_blank" rel="noopener">GitHub Repository</a>
-        <span>•</span>
-        <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener">☕ Buy Us a Coffee (Stripe)</a>
-        <span>•</span>
-        <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK">◎ Solana Tip (GG2e...dXoK)</a>
-        <span>•</span>
-        <span>Port 8112 (Tactical Radar Cockpit & REST API)</span>
+      <div class="footer-links">
+        <a href="https://github.com/1nc0gn30/agent-gods-eye" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer">☕ Buy Us a Coffee</a>
+        <button type="button" id="btnCopySolanaFooter" class="footer-copy-btn" data-solana="GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK">◎ Solana Tip (GG2e...dXoK)</button>
+        <span class="footer-port-tag">Loopback 127.0.0.1:8112 · v2.6.0</span>
       </div>
     </footer>
 
   </div>
 
   <script src="/godseye_radar.js"></script>
-  <script src="/assets/sovereign-upgrade.js" defer></script>
-
   <script src="/sovereign_tutorial.js"></script>
   <script>
-    window.addEventListener("DOMContentLoaded", function() {
+    window.addEventListener("DOMContentLoaded", function () {
       if (window.createSovereignTutorial) {
         window.createSovereignTutorial({
           toolId: "agent-gods-eye",
-          toolName: "Agent God (God's Eye)",
-          tagline: "Real-time 3D orbital oversight and bird's-eye radar over all active AI agents!",
-          accentColor: "#EC4899",
-          steps: [{"icon": "\ud83d\udc41\ufe0f", "title": "Panoramic Agent Radar", "desc": "See all running subagents, threads, and background daemons in one centralized, multi-pane mission cockpit."}, {"icon": "\u26a1", "title": "Sub-Second Latency HUD", "desc": "Monitor CPU, RAM, and token velocity in real time so you spot stuck agents before they lock up."}, {"icon": "\ud83d\uded1", "title": "Emergency Killswitch", "desc": "Instantly freeze, terminate, or snapshot any agent's memory with a single click."}]
+          toolName: "Agent God's Eye v2.6.0",
+          tagline: "Autonomous Shodan OSINT Tactical Radar & 3D Planetary Surface Reconnaissance",
+          accentColor: "#D4AF37",
+          steps: [
+            {
+              icon: "◎",
+              title: "Query Global Attack Surfaces",
+              desc: "Run Shodan filter sweeps (port:554, port:502 modbus, has_vuln:true) against live Shodan APIs or the built-in RFC 5737 offline demo catalog."
+            },
+            {
+              icon: "⚡",
+              title: "Inspect Hosts & Exposure Scores",
+              desc: "Click any glowing node on the 3D planetary globe or table row to inspect open ports, banners, geolocation, and correlated CVEs."
+            },
+            {
+              icon: "↓",
+              title: "Stream SSE & Export Bundles",
+              desc: "Monitor live reconnaissance events in the SSE console and export tracked targets as JSON or formula-safe CSV."
+            }
+          ]
         });
       }
     });
