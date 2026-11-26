@@ -26,3 +26,6 @@ release-artifacts/
 build/*.iso*
 build/live_workspace/
 build/release-*/
+
+*.db-wal
+*.db-shm
